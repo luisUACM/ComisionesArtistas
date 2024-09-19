@@ -1,6 +1,6 @@
 from ..db_helper import get_conexion
 from ..db_helper import cerrar_conexion
-from ...modelo.Usuario import Usuario
+from ...modelo.usuario import Usuario
 
 class UsuarioDao:
 

@@ -1,7 +1,7 @@
 from flask import current_app as app
 from flask import render_template
 from ..persistence.dao.UsuarioDao import UsuarioDao
-from ..modelo.Usuario import Usuario
+from ..modelo.usuario import Usuario
 
 usuario_dao = UsuarioDao()
 
