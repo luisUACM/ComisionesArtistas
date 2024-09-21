@@ -17,7 +17,8 @@ class Usuario:
                 rol: Rol, 
                 id: int = None, 
                 portafolio: list[Arte] = [],
-                lista_comisiones: list[Comision] = []
+                lista_comisiones: list[Comision] = [],
+                biografia: str = ''
                 ) -> None:
         
         self._correo: str = correo
@@ -27,6 +28,7 @@ class Usuario:
         self._id: int = id
         self._portafolio: list[str] = portafolio
         self._lista_comisiones: list[Comision] = lista_comisiones
+        self._biografia: str = biografia
 
     @property
     def correo(self) -> str:
@@ -83,3 +85,11 @@ class Usuario:
     @portafolio.setter
     def portafolio(self, portafolio: list[str]):
         self._portafolio = portafolio
+    
+    @property
+    def biografia(self) -> str:
+        return self._biografia
+    
+    @biografia.setter
+    def biografia(self, biografia: str):
+        self._biografia = biografia
