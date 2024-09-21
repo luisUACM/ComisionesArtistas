@@ -9,7 +9,8 @@ class Usuario:
         ARTISTA = 1
         CLIENTE = 2
 
-    def __init__(self, 
+    def __init__(
+                self, 
                 correo: str, 
                 contrasena: str, 
                 nombre: str, 
@@ -18,25 +19,14 @@ class Usuario:
                 portafolio: list[Arte] = [],
                 lista_comisiones: list[Comision] = []
                 ) -> None:
-        self._id: int = id
+        
         self._correo: str = correo
         self._contrasena: str = contrasena
         self._nombre: str = nombre
         self._rol: self.Rol = rol
+        self._id: int = id
         self._portafolio: list[str] = portafolio
         self._lista_comisiones: list[Comision] = lista_comisiones
-    
-    #Getter
-    
-    @property
-    def id(self) -> str:
-        return self._id
-    
-    #Setter
-    
-    @id.setter
-    def id(self, id: int):
-        self._id = id
 
     @property
     def correo(self) -> str:
@@ -69,6 +59,14 @@ class Usuario:
     @rol.setter
     def rol(self, rol: Rol):
         self._rol = rol
+
+    @property
+    def id(self) -> str:
+        return self._id
+    
+    @id.setter
+    def id(self, id: int):
+        self._id = id
     
     @property
     def lista_comisiones(self) -> list[Comision]:

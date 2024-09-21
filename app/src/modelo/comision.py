@@ -15,8 +15,8 @@ class Comision:
         TERMINADA = 4 #El artista sube -> el trabajo de arte fianlizado.
         ARCHIVADA = 5 #El cliente descarga el trabajo realizado <-
         
-    #Se puede hacer igual que serviciocomision, una lista de tuplas o uno individual y una lista de extras
-    def __init__(self, 
+    def __init__(
+                self, 
                 chat: Chat,
                 servicio: ServicioComision,
                 cantidad: int,
@@ -37,20 +37,14 @@ class Comision:
         self._avances: list[str] = avances
         self._producto_final: list[str] = producto_final
 
-    
-
-    # precio
     @property
     def precio(self) -> list[Dinero]:
         return self._precio
 
     @precio.setter
     def precio(self, precio: list[Dinero]):
-        self._precio = precio
+        self._precio = precio    
 
-    
-
-    # titulo
     @property
     def titulo(self) -> str:
         return self._titulo
@@ -59,7 +53,6 @@ class Comision:
     def titulo(self, titulo: str):
         self._titulo = titulo
 
-    # fecha_entrega
     @property
     def fecha_entrega(self) -> date:
         return self._fecha_entrega
@@ -68,7 +61,6 @@ class Comision:
     def fecha_entrega(self, fecha_entrega: date):
         self._fecha_entrega = fecha_entrega
 
-    # detalles
     @property
     def detalles(self) -> list[str]:
         return self._detalles
@@ -77,7 +69,6 @@ class Comision:
     def detalles(self, detalles: list[str]):
         self._detalles = detalles
 
-    # fecha_solicitud
     @property
     def fecha_solicitud(self) -> date:
         return self._fecha_solicitud
@@ -86,7 +77,6 @@ class Comision:
     def fecha_solicitud(self, fecha_solicitud: date):
         self._fecha_solicitud = fecha_solicitud
 
-    # avances
     @property
     def avances(self) -> list[str]:
         return self._avances
@@ -95,7 +85,6 @@ class Comision:
     def avances(self, avances: list[str]):
         self._avances = avances
 
-    # producto_final
     @property
     def producto_final(self) -> list[str]:
         return self._producto_final
