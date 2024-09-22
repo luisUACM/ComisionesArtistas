@@ -2,13 +2,72 @@ from datetime import datetime
 from datetime import date
 from enum import Enum
 
+#Inicio clase Dinero
+class Dinero:
 
+    class TipoMoneda(Enum):
+
+        MXN = 1
+        USD = 2
+
+    DICCIONARIO_CONVERSIONES = {'USD-MNX':19.25, 
+                                'MNX-USD':0.052}
+
+    def __init__(
+                self,
+                moneda: TipoMoneda, 
+                cantidad: float,
+                id: int = None
+                ) -> None:
+        self._moneda: self.TipoMoneda = moneda
+        self._cantidad: float = cantidad
+        self._id: int = id
+    
+    @property
+    def moneda(self) -> TipoMoneda:
+        return self._moneda
+
+    @moneda.setter
+    def moneda(self, moneda: TipoMoneda) -> None:
+        self._moneda = moneda
+
+    @property
+    def cantidad(self) -> float:
+        return self._cantidad
+
+    @cantidad.setter
+    def cantidad(self, cantidad: float) -> None:
+        self._cantidad = cantidad
+
+    @property
+    def id(self) -> int:
+        return self._id
+
+    @id.setter
+    def id(self, id: int) -> None:
+        self._id = id
+
+#Fin clase Dinero
+
+#Inicio clase Usuario
 class Usuario:
 
     class Rol(Enum):
 
         ARTISTA = 1
         CLIENTE = 2
+    
+    class RedSocial(Enum):
+
+        DEVIANTART = 'Deviantart'
+        FACEBOOK = 'Facebook'
+        INSTAGRAM = 'Instagram'
+        KOFI = 'Kofi'
+        PATREON = 'Patreon'
+        TWITCH = 'Twitch'
+        TWITTER = 'Twitter'
+        YOUTUBE = 'Youtube'
+        OTRA = 'Link'
 
     def __init__(
                 self, 
@@ -19,7 +78,10 @@ class Usuario:
                 id: int = None, 
                 portafolio: list['Arte'] = [],
                 lista_comisiones: list['Comision'] = [],
-                biografia: str = ''
+                biografia: str = '',
+                foto_perfil: str = '',
+                redes_sociales: list[tuple[RedSocial, str]] = [],
+                moneda: Dinero.TipoMoneda = Dinero.TipoMoneda.MXN
                 ) -> None:
         
         self._correo: str = correo
@@ -30,6 +92,9 @@ class Usuario:
         self._portafolio: list[str] = portafolio
         self._lista_comisiones: list[Comision] = lista_comisiones
         self._biografia: str = biografia
+        self._foto_perfil: str = foto_perfil
+        self._redes_sociales: list[tuple[self.RedSocial, str]] = redes_sociales
+        self._moneda: Dinero.TipoMoneda = moneda
 
     @property
     def correo(self) -> str:
@@ -94,6 +159,30 @@ class Usuario:
     @biografia.setter
     def biografia(self, biografia: str):
         self._biografia = biografia
+    
+    @property
+    def foto_perfil(self) -> str:
+        return self._foto_perfil
+    
+    @foto_perfil.setter
+    def foto_perfil(self, foto_perfil: str):
+        self._foto_perfil = foto_perfil
+
+    @property
+    def redes_sociales(self) -> list[tuple[RedSocial, str]]:
+        return self._redes_sociales
+    
+    @redes_sociales.setter
+    def redes_sociales(self, redes_sociales: list[tuple[RedSocial, str]]):
+        self._redes_sociales = redes_sociales
+
+    @property
+    def moneda(self) -> str:
+        return self._moneda
+    
+    @moneda.setter
+    def moneda(self, moneda: str):
+        self._moneda = moneda
 
 #Fin clase usuario
 
@@ -278,53 +367,6 @@ class Mensaje:
         self._fecha_hora = fecha_hora
 
 #Fin clase mensaje
-
-#Inicio clase Dinero
-class Dinero:
-
-    class TipoMoneda(Enum):
-
-        MXN = 1
-        USD = 2
-
-    DICCIONARIO_CONVERSIONES = {'USD-MNX':19.25, 
-                                'MNX-USD':0.052}
-
-    def __init__(
-                self,
-                moneda: TipoMoneda, 
-                cantidad: float,
-                id: int = None
-                ) -> None:
-        self._moneda: self.TipoMoneda = moneda
-        self._cantidad: float = cantidad
-        self._id: int = id
-    
-    @property
-    def moneda(self) -> TipoMoneda:
-        return self._moneda
-
-    @moneda.setter
-    def moneda(self, moneda: TipoMoneda) -> None:
-        self._moneda = moneda
-
-    @property
-    def cantidad(self) -> float:
-        return self._cantidad
-
-    @cantidad.setter
-    def cantidad(self, cantidad: float) -> None:
-        self._cantidad = cantidad
-
-    @property
-    def id(self) -> int:
-        return self._id
-
-    @id.setter
-    def id(self, id: int) -> None:
-        self._id = id
-
-#Fin clase Dinero
 
 #Inicio clase Comision
 class Comision:
