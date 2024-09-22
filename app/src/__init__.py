@@ -4,6 +4,8 @@ import sqlite3
 def init_app():
     app = Flask(__name__)
     app.config['DEBUG'] = True
+    app.secret_key = '123456'
+    app.config['UPLOAD_FOLDER'] = 'uploads/'
 
     app.config['NOMBRE_DB'] = 'database.db'
     app.config['RUTA_DB'] = 'src/persistence/' + app.config['NOMBRE_DB']
@@ -23,6 +25,7 @@ def init_app():
         #  =========================================================
 
         from .routes import routes
+        from .routes import rutas_artista
         from .persistence import db_helper
 
         return app
