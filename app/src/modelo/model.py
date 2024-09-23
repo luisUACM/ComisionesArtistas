@@ -14,22 +14,14 @@ class Dinero:
                                 'MNX-USD':0.052}
 
     def __init__(
-                self,
-                moneda: TipoMoneda, 
+                self, 
                 cantidad: float,
+                moneda: TipoMoneda = TipoMoneda.MXN,
                 id: int = None
                 ) -> None:
-        self._moneda: self.TipoMoneda = moneda
         self._cantidad: float = cantidad
+        self._moneda: self.TipoMoneda = moneda
         self._id: int = id
-    
-    @property
-    def moneda(self) -> TipoMoneda:
-        return self._moneda
-
-    @moneda.setter
-    def moneda(self, moneda: TipoMoneda) -> None:
-        self._moneda = moneda
 
     @property
     def cantidad(self) -> float:
@@ -38,6 +30,14 @@ class Dinero:
     @cantidad.setter
     def cantidad(self, cantidad: float) -> None:
         self._cantidad = cantidad
+
+    @property
+    def moneda(self) -> TipoMoneda:
+        return self._moneda
+
+    @moneda.setter
+    def moneda(self, moneda: TipoMoneda) -> None:
+        self._moneda = moneda
 
     @property
     def id(self) -> int:
@@ -77,7 +77,7 @@ class Usuario:
                 rol: Rol, 
                 id: int = None, 
                 portafolio: list['Arte'] = [],
-                lista_comisiones: list['Comision'] = [],
+                comisiones: list['ServicioComision'] = [],
                 biografia: str = '',
                 foto_perfil: str = '',
                 redes_sociales: list[tuple[RedSocial, str]] = [],
@@ -90,7 +90,7 @@ class Usuario:
         self._rol: self.Rol = rol
         self._id: int = id
         self._portafolio: list[str] = portafolio
-        self._lista_comisiones: list[Comision] = lista_comisiones
+        self._comisiones: list[ServicioComision] = comisiones
         self._biografia: str = biografia
         self._foto_perfil: str = foto_perfil
         self._redes_sociales: list[tuple[self.RedSocial, str]] = redes_sociales
@@ -137,12 +137,12 @@ class Usuario:
         self._id = id
     
     @property
-    def lista_comisiones(self) -> list['Comision']:
-        return self._lista_comisiones
+    def comisiones(self) -> list['ServicioComision']:
+        return self._comisiones
     
-    @lista_comisiones.setter
-    def lista_comisiones(self, lista_comisiones: list['Comision']):
-        self._lista_comisiones = lista_comisiones
+    @comisiones.setter
+    def comisiones(self, comisiones: list['ServicioComision']):
+        self._comisiones = comisiones
 
     @property
     def portafolio(self) -> list[str]:
@@ -178,11 +178,11 @@ class Usuario:
 
     @property
     def moneda(self) -> str:
-        return self._moneda
+        return self.moneda
     
     @moneda.setter
     def moneda(self, moneda: str):
-        self._moneda = moneda
+        self.moneda = moneda
 
 #Fin clase usuario
 

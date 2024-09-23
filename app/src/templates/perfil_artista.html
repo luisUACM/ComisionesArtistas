@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row ">
+            <div class="col-2">
+                <div class="card sticky-sm-top">
+                    <img src="{{ url_for('uploads', archivo=artista.foto_perfil) }}" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ artista.nombre }}</h5>
+                        <p class="card-text">{{ artista.biografia }}</p>
+                    </div>
+                    {% if artista.redes_sociales | length > 0 %}
+                        <ul class="list-group list-group-flush">
+                            {% for r in artista.redes_sociales %}
+                                <li class="list-group-item">
+                                    <img src="{{ url_for('static', filename='img/' ~ r.0.value ~ '.webp') }}" width="15" height="15">
+                                    {% if r.0.value == 'Link.webp'%}
+                                        <a href="{{ r.1 }}" class="card-link">{{ r.1 }}</a>
+                                    {% else %}
+                                        <a href="{{ r.1 }}" class="card-link">{{ r.0.value }}</a>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <!-- div class="card-body">
+                        Temporalmente vacío
+                    </div-->
+                </div>
+            </div>
+            <div class="col-10">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link active" id="tabPortafolio" data-bs-toggle="tab" data-bs-target="#tab-portafolio" type="button" role="tab" aria-controls="tab-portafolio" aria-selected="true">Portafolio</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <button class="nav-link" id="tabComisiones" data-bs-toggle="tab" data-bs-target="#tab-comisiones" type="button" role="tab" aria-controls="tab-comisiones" aria-selected="false">Comisiones</button>
+                    </li>
+                  </ul>
+                <div class="tab-content" id="myTabContent">
+                    <!-- Tab portafolio -->
+                    <div class="tab-pane fade show active" id="tab-portafolio" role="tabpanel" aria-labelledby="tabPortafolio" tabindex="0"> 
+                        {% for fila in artista.portafolio | batch(3) %}
+                            <div class="row">
+                                {% for i in fila %}
+                                <div class="col gy-4">
+                                    <h3>{{ i.titulo }}</h3>
+                                    <img src="{{ url_for('uploads', archivo=i.ruta.0) }}" class="img-fluid">
+                                </div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <!-- Tab comisiones -->
+                    {% for s in artista.comisiones %}
+                        <div class="tab-pane fade" id="tab-comisiones" role="tabpanel" aria-labelledby="tabComisiones" tabindex="0">
+                            <div class="container border border-light-subtle p-2">
+                                <img src="{{ url_for('uploads', archivo=s.piezas_arte[0].ruta.0) }}" class="img-fluid">
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
