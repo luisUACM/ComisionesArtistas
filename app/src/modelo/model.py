@@ -56,18 +56,6 @@ class Usuario:
 
         ARTISTA = 1
         CLIENTE = 2
-    
-    class RedSocial(Enum):
-
-        DEVIANTART = 'Deviantart'
-        FACEBOOK = 'Facebook'
-        INSTAGRAM = 'Instagram'
-        KOFI = 'Kofi'
-        PATREON = 'Patreon'
-        TWITCH = 'Twitch'
-        TWITTER = 'Twitter'
-        YOUTUBE = 'Youtube'
-        OTRA = 'Link'
 
     def __init__(
                 self, 
@@ -75,12 +63,16 @@ class Usuario:
                 contrasena: str, 
                 nombre: str, 
                 rol: Rol, 
+                #PK
                 id: int = None, 
+                #FK
                 portafolio: list['Arte'] = [],
-                comisiones: list['ServicioComision'] = [],
+                #FK
+                comisiones: list['Comision'] = [],
+                servicios: list['Servicio'] = [],
                 biografia: str = '',
                 foto_perfil: str = '',
-                redes_sociales: list[tuple[RedSocial, str]] = [],
+                contactos: list['Contacto'] = [],
                 moneda: Dinero.TipoMoneda = Dinero.TipoMoneda.MXN
                 ) -> None:
         
@@ -90,10 +82,10 @@ class Usuario:
         self._rol: self.Rol = rol
         self._id: int = id
         self._portafolio: list[str] = portafolio
-        self._comisiones: list[ServicioComision] = comisiones
+        self._comisiones: list[Comision] = comisiones
         self._biografia: str = biografia
         self._foto_perfil: str = foto_perfil
-        self._redes_sociales: list[tuple[self.RedSocial, str]] = redes_sociales
+        self._redes_sociales: list[tuple[self.RedSocial, str]] = redes_sociales     #(red_social, link)
         self._moneda: Dinero.TipoMoneda = moneda
 
     @property
@@ -137,11 +129,11 @@ class Usuario:
         self._id = id
     
     @property
-    def comisiones(self) -> list['ServicioComision']:
+    def comisiones(self) -> list['Servicio']:
         return self._comisiones
     
     @comisiones.setter
-    def comisiones(self, comisiones: list['ServicioComision']):
+    def comisiones(self, comisiones: list['Servicio']):
         self._comisiones = comisiones
 
     @property
@@ -187,11 +179,12 @@ class Usuario:
 #Fin clase usuario
 
 #CLASE ServicioComision
-class ServicioComision:
+class Servicio:
     def __init__(
                 self, 
                 titulo: str, 
-                servicios: list[tuple[str, 'Dinero', bool]],    #(descripcion, precio, es_extra)
+                #FK
+                conceptos: list['Concepto'],
                 piezas_arte: list['Arte'],
                 contrato: list[str],
                 id: int = None,
@@ -255,8 +248,11 @@ class Pago:
 
     def __init__(
                 self,
+                #FK
                 comision: 'Comision',
+                #FK
                 cliente: 'Usuario', 
+                #FK
                 monto: 'Dinero', 
                 estado: EstadoPago = EstadoPago.PENDIENTE,
                 id: int = None,
@@ -331,7 +327,7 @@ class Mensaje:
                 ) -> None:
         self._usuario = usuario
         self._mensaje = mensaje
-        self._id = id
+        self._id: int = id
         self._fecha_hora = fecha_hora
 
     @property
@@ -382,24 +378,26 @@ class Comision:
     def __init__(
                 self, 
                 chat: 'Chat',
-                servicio: ServicioComision,
+                servicio: Servicio,
                 cantidad: int,
-                precio: list[Dinero],
+                conceptos: list['Concepto'],
                 fecha_entrega: date, 
-                detalles: list[str] = [],
+                id: int = None,
                 fecha_solicitud: date = date.today,
                 avances: list[str] = [],
-                producto_final: list[str] = None
+                productos_finales: list[str] = None,
+                estado: EstadosComision = EstadosComision.SOLICITADA
                 ) -> None:
         self._chat: Chat = chat
-        self._servicio : ServicioComision = servicio
+        self._servicio : Servicio = servicio
         self._cantidad: int = cantidad 
         self._precio: list[Dinero] = precio
-        self._fecha_entrega: date = fecha_entrega
         self._detalles: str = detalles
+        self._fecha_entrega: date = fecha_entrega
+        self._id: int = id
         self._fecha_solicitud: date = fecha_solicitud
         self._avances: list[str] = avances
-        self._producto_final: list[str] = producto_final
+        self._producto_final: list[str] = productos_finales
 
     @property
     def precio(self) -> list[Dinero]:
@@ -418,20 +416,28 @@ class Comision:
         self._titulo = titulo
 
     @property
-    def fecha_entrega(self) -> date:
-        return self._fecha_entrega
-
-    @fecha_entrega.setter
-    def fecha_entrega(self, fecha_entrega: date):
-        self._fecha_entrega = fecha_entrega
-
-    @property
     def detalles(self) -> list[str]:
         return self._detalles
 
     @detalles.setter
     def detalles(self, detalles: list[str]):
         self._detalles = detalles
+
+    @property
+    def fecha_entrega(self) -> date:
+        return self._fecha_entrega
+
+    @fecha_entrega.setter
+    def fecha_entrega(self, fecha_entrega: date):
+        self._fecha_entrega = fecha_entrega
+    
+    @property
+    def id(self) -> int:
+        return self._id
+
+    @id.setter
+    def id(self, id: int) -> None:
+        self._id = id
 
     @property
     def fecha_solicitud(self) -> date:
@@ -521,7 +527,7 @@ class Chat:
 class Arte:
     def __init__(
                 self,
-                artista: Usuario,
+                id_artista: int,
                 ruta: str,
                 nombre_archivo: str,
                 extension: str,
@@ -595,3 +601,61 @@ class Arte:
         self._titulo = titulo
 
 #Fin clase arte
+
+#----------------------Clases nuevas----------------------#
+class Contacto:
+    
+    class TipoContacto(Enum):
+
+        DEVIANTART = 'Deviantart'
+        FACEBOOK = 'Facebook'
+        INSTAGRAM = 'Instagram'
+        KOFI = 'Kofi'
+        PATREON = 'Patreon'
+        TWITCH = 'Twitch'
+        TWITTER = 'Twitter'
+        YOUTUBE = 'Youtube'
+        CORREO = 'E-mail'
+        TELEFONO = 'Teléfono'
+        OTRA = 'Link'
+
+
+    def __init__(
+                self, 
+                id_usuario: int,
+                tipo_contacto: TipoContacto, 
+                enlace: str,
+                id: int = None
+                ) -> None:
+        pass
+
+#servicios: list[tuple[str, 'Dinero', bool]],    #(descripcion, precio, es_extra)
+class Concepto:
+    
+    def __init__(
+                self,
+                descripcion: str,
+                precio: Dinero,
+                es_extra: bool,
+                id: int = None
+                ) -> None:
+        pass
+                
+"""
+ATRIBUTOS AGREGADOS
+
+Comision 
+    -> estado
+    -> producto_final se renombro a productos_finales
+Arte -> id_artista
+ServicioComision 
+    -> id_artista
+    -> servicios se cambio a conceptos y de tipo Concepto
+Usuario    
+    -> redes_sociales se renombro a contactos y cambio el tipo
+    -> portafolio es FK
+    -> servicios es FK
+    -> comisiones es FK
+Chat
+    -> falta id
+"""
