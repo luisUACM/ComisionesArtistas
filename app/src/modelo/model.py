@@ -63,17 +63,14 @@ class Usuario:
                 contrasena: str, 
                 nombre: str, 
                 rol: Rol, 
-                #PK
                 id: int = None, 
-                #FK
-                portafolio: list['Arte'] = [],
-                #FK
-                comisiones: list['Comision'] = [],
-                servicios: list['Servicio'] = [],
                 biografia: str = '',
-                foto_perfil: str = '',
-                contactos: list['Contacto'] = [],
-                moneda: Dinero.TipoMoneda = Dinero.TipoMoneda.MXN
+                foto_perfil: str = '/fotos_perfil/generic.webp',
+                moneda: Dinero.TipoMoneda = Dinero.TipoMoneda.MXN,
+                portafolio: list['Arte'] = [],     
+                comisiones: list['Comision'] = [], 
+                servicios: list['Servicio'] = [],  
+                contactos: list['Contacto'] = []   
                 ) -> None:
         
         self._correo: str = correo
@@ -81,12 +78,13 @@ class Usuario:
         self._nombre: str = nombre
         self._rol: self.Rol = rol
         self._id: int = id
-        self._portafolio: list[str] = portafolio
-        self._comisiones: list[Comision] = comisiones
         self._biografia: str = biografia
         self._foto_perfil: str = foto_perfil
-        self._redes_sociales: list[tuple[self.RedSocial, str]] = redes_sociales     #(red_social, link)
         self._moneda: Dinero.TipoMoneda = moneda
+        self._portafolio: list[Arte] = portafolio
+        self._comisiones: list[Comision] = comisiones
+        self._servicios: list[Servicio] = servicios
+        self._contactos: list[Contacto] = contactos
 
     @property
     def correo(self) -> str:
@@ -127,23 +125,7 @@ class Usuario:
     @id.setter
     def id(self, id: int):
         self._id = id
-    
-    @property
-    def comisiones(self) -> list['Servicio']:
-        return self._comisiones
-    
-    @comisiones.setter
-    def comisiones(self, comisiones: list['Servicio']):
-        self._comisiones = comisiones
 
-    @property
-    def portafolio(self) -> list[str]:
-        return self._portafolio
-    
-    @portafolio.setter
-    def portafolio(self, portafolio: list[str]):
-        self._portafolio = portafolio
-    
     @property
     def biografia(self) -> str:
         return self._biografia
@@ -159,41 +141,66 @@ class Usuario:
     @foto_perfil.setter
     def foto_perfil(self, foto_perfil: str):
         self._foto_perfil = foto_perfil
-
-    @property
-    def redes_sociales(self) -> list[tuple[RedSocial, str]]:
-        return self._redes_sociales
     
-    @redes_sociales.setter
-    def redes_sociales(self, redes_sociales: list[tuple[RedSocial, str]]):
-        self._redes_sociales = redes_sociales
-
     @property
-    def moneda(self) -> str:
+    def moneda(self) -> Dinero.TipoMoneda:
         return self.moneda
     
     @moneda.setter
-    def moneda(self, moneda: str):
+    def moneda(self, moneda: Dinero.TipoMoneda):
         self.moneda = moneda
+    
+    @property
+    def portafolio(self) -> list['Arte']:
+        return self._portafolio
+    
+    @portafolio.setter
+    def portafolio(self, portafolio: list['Arte']):
+        self._portafolio = portafolio
+
+    @property
+    def comisiones(self) -> list['Comision']:
+        return self._comisiones
+    
+    @comisiones.setter
+    def comisiones(self, comisiones: list['Comision']):
+        self._comisiones = comisiones
+
+    @property
+    def servicios(self) -> list['Servicio']:
+        return self._servicios
+    
+    @servicios.setter
+    def servicios(self, servicios: list['Servicio']):
+        self._servicios = servicios
+
+    @property
+    def contactos(self) -> list['Contacto']:
+        return self._contactos
+    
+    @contactos.setter
+    def contactos(self, contactos: list['Contacto']):
+        self._contactos = contactos
 
 #Fin clase usuario
 
-#CLASE ServicioComision
+#CLASE Servicio
 class Servicio:
     def __init__(
                 self, 
                 titulo: str, 
-                #FK
                 conceptos: list['Concepto'],
                 piezas_arte: list['Arte'],
                 contrato: list[str],
                 id: int = None,
+                artista: Usuario = None
                 ) -> None:
         self._titulo = titulo
-        self._servicios = servicios
+        self._conceptos = conceptos
         self._piezas_arte = piezas_arte
         self._contrato = contrato
         self._id = id
+        self._artista = artista
     
     @property
     def titulo(self) -> str:
@@ -204,12 +211,12 @@ class Servicio:
         self._titulo = titulo
 
     @property
-    def servicios(self) -> list[tuple[str, 'Dinero', bool]]:
-        return self._servicios
+    def conceptos(self) -> list['Concepto']:
+        return self._conceptos
 
-    @servicios.setter
-    def servicios(self, servicios: list[tuple[str, 'Dinero', bool]]) -> None:
-        self._servicios = servicios
+    @conceptos.setter
+    def conceptos(self, conceptos: list['Concepto']) -> None:
+        self._conceptos = conceptos
 
     @property
     def piezas_arte(self) -> list['Arte']:
@@ -235,6 +242,14 @@ class Servicio:
     def id(self, id: int) -> None:
         self._id = id
 
+    @property
+    def artista(self) -> Usuario:
+        return self._artista
+
+    @artista.setter
+    def artista(self, artista: Usuario) -> None:
+        self._artista = artista
+
 #Fin clase servicio_comision
 
 #Inicio clase Pago
@@ -248,12 +263,9 @@ class Pago:
 
     def __init__(
                 self,
-                #FK
-                comision: 'Comision',
-                #FK
-                cliente: 'Usuario', 
-                #FK
-                monto: 'Dinero', 
+                comision: 'Comision' = None,   #FK
+                cliente: 'Usuario' = None,
+                monto: 'Dinero' = None,   
                 estado: EstadoPago = EstadoPago.PENDIENTE,
                 id: int = None,
                 fecha_hora: datetime = datetime.now(),                
@@ -321,9 +333,10 @@ class Mensaje:
     def __init__(
                 self, 
                 usuario: Usuario, 
-                mensaje: str,
-                id: int = None,
+                mensaje: str, 
+                id: int = None, 
                 fecha_hora: datetime = datetime.now(), 
+                chat: 'Chat' = None    
                 ) -> None:
         self._usuario = usuario
         self._mensaje = mensaje
@@ -362,6 +375,14 @@ class Mensaje:
     def fecha_hora(self, fecha_hora: datetime) -> None:
         self._fecha_hora = fecha_hora
 
+    @property
+    def chat(self) -> 'Chat':
+        return self._chat
+
+    @chat.setter
+    def chat(self, chat: 'Chat') -> None:
+        self._chat = chat
+
 #Fin clase mensaje
 
 #Inicio clase Comision
@@ -385,43 +406,53 @@ class Comision:
                 id: int = None,
                 fecha_solicitud: date = date.today,
                 avances: list[str] = [],
-                productos_finales: list[str] = None,
-                estado: EstadosComision = EstadosComision.SOLICITADA
+                productos_finales: list[str] = [],
+                estado: EstadosComision = EstadosComision.SOLICITADA,
+                pagos: list[Pago] = None   
                 ) -> None:
         self._chat: Chat = chat
         self._servicio : Servicio = servicio
         self._cantidad: int = cantidad 
-        self._precio: list[Dinero] = precio
-        self._detalles: str = detalles
+        self._conceptos: list[Concepto] = conceptos
         self._fecha_entrega: date = fecha_entrega
         self._id: int = id
         self._fecha_solicitud: date = fecha_solicitud
         self._avances: list[str] = avances
-        self._producto_final: list[str] = productos_finales
+        self._productos_finales: list[str] = productos_finales
+        self._estado = estado
+        self._pagos = pagos 
 
     @property
-    def precio(self) -> list[Dinero]:
-        return self._precio
+    def chat(self) -> 'Chat':
+        return self._chat
 
-    @precio.setter
-    def precio(self, precio: list[Dinero]):
-        self._precio = precio    
+    @chat.setter
+    def chat(self, chat: 'Chat') -> None:
+        self._chat = chat
+    
+    @property
+    def servicio(self) -> 'Servicio':
+        return self._servicio
+
+    @servicio.setter
+    def servicio(self, servicio: 'Chat') -> None:
+        self._servicio = servicio
+    
+    @property
+    def cantidad(self) -> int:
+        return self._cantidad
+
+    @id.setter
+    def cantidad(self, cantidad: int) -> None:
+        self._cantidad = cantidad
 
     @property
-    def titulo(self) -> str:
-        return self._titulo
+    def conceptos(self) -> list['Concepto']:
+        return self._conceptos
 
-    @titulo.setter
-    def titulo(self, titulo: str):
-        self._titulo = titulo
-
-    @property
-    def detalles(self) -> list[str]:
-        return self._detalles
-
-    @detalles.setter
-    def detalles(self, detalles: list[str]):
-        self._detalles = detalles
+    @conceptos.setter
+    def conceptos(self, conceptos: list['Concepto']):
+        self._conceptos = conceptos
 
     @property
     def fecha_entrega(self) -> date:
@@ -456,12 +487,28 @@ class Comision:
         self._avances = avances
 
     @property
-    def producto_final(self) -> list[str]:
-        return self._producto_final
+    def productos_finales(self) -> list[str]:
+        return self._productos_finales
 
-    @producto_final.setter
-    def producto_final(self, producto_final: list[str]):
-        self._producto_final = producto_final
+    @productos_finales.setter
+    def productos_finales(self, productos_finales: list[str]):
+        self._productos_finales = productos_finales
+    
+    @property
+    def estado(self) -> EstadosComision:
+        return self._estado
+
+    @estado.setter
+    def estado(self, estado: EstadosComision):
+        self._estado = estado
+    
+    @property
+    def pagos(self) -> list[Pago]:
+        return self._pagos
+
+    @pagos.setter
+    def pagos(self, pagos: list[Pago]):
+        self._pagos = pagos
 
 #Fin clase Comision
 
@@ -470,9 +517,9 @@ class Chat:
 
     def __init__(
                 self, 
-                artista: Usuario, 
-                cliente: Usuario, 
-                mensajes: list[Mensaje] = [],
+                artista: Usuario,  
+                cliente: Usuario,  
+                mensajes: list[Mensaje] = [],  
                 esta_deacuerdo: tuple[bool, bool] = (False, False),     #(artista, cliente)
                 solicitud_cambios: bool = False
                 ) -> None:
@@ -527,10 +574,9 @@ class Chat:
 class Arte:
     def __init__(
                 self,
-                id_artista: int,
+                artista: int,
                 ruta: str,
                 nombre_archivo: str,
-                extension: str,
                 id: int = None,
                 etiquetas: list[str] = [],
                 titulo: str = ''
@@ -539,7 +585,6 @@ class Arte:
         self._artista: Usuario = artista,
         self._ruta: str = ruta,
         self._nombre_archivo: str = nombre_archivo,
-        self._extension: str = extension
         self._id: int = id
         self._etiquetas: list[str] = etiquetas
         self._titulo: str = titulo
@@ -569,14 +614,6 @@ class Arte:
         self._nombre_archivo = nombre_archivo
 
     @property
-    def extension(self) -> str:
-        return self._extension
-
-    @extension.setter
-    def extension(self, extension: str) -> None:
-        self._extension = extension
-    
-    @property
     def id(self) -> int:
         return self._id
 
@@ -602,7 +639,6 @@ class Arte:
 
 #Fin clase arte
 
-#----------------------Clases nuevas----------------------#
 class Contacto:
     
     class TipoContacto(Enum):
@@ -622,12 +658,46 @@ class Contacto:
 
     def __init__(
                 self, 
-                id_usuario: int,
+                usuario: Usuario,  
                 tipo_contacto: TipoContacto, 
                 enlace: str,
                 id: int = None
                 ) -> None:
-        pass
+        self._usuario: Usuario = usuario
+        self._tipo_contacto: Contacto.TipoContacto = tipo_contacto
+        self._enlace: str = enlace
+        self._id: int = id
+    @property
+    def usuario(self) -> Usuario:
+        return self._usuario
+
+    @usuario.setter
+    def usuario(self, usuario: Usuario) -> None:
+        self._usuario = usuario
+
+    @property
+    def tipo_contacto(self) -> TipoContacto:
+        return self._tipo_contacto
+
+    @tipo_contacto.setter
+    def tipo_contacto(self, tipo_contacto: TipoContacto) -> None:
+        self._tipo_contacto = tipo_contacto
+
+    @property
+    def enlace(self) -> str:
+        return self._enlace
+
+    @enlace.setter
+    def enlace(self, enlace: str) -> None:
+        self._enlace = enlace
+
+    @property
+    def id(self) -> int:
+        return self._id
+
+    @id.setter
+    def id(self, id: int) -> None:
+        self._id = id
 
 #servicios: list[tuple[str, 'Dinero', bool]],    #(descripcion, precio, es_extra)
 class Concepto:
@@ -639,23 +709,40 @@ class Concepto:
                 es_extra: bool,
                 id: int = None
                 ) -> None:
-        pass
-                
-"""
-ATRIBUTOS AGREGADOS
+        self._descripcion: str = descripcion
+        self._precio: Dinero = precio
+        self._es_extra: bool = es_extra
+        self._id: int = id
 
-Comision 
-    -> estado
-    -> producto_final se renombro a productos_finales
-Arte -> id_artista
-ServicioComision 
-    -> id_artista
-    -> servicios se cambio a conceptos y de tipo Concepto
-Usuario    
-    -> redes_sociales se renombro a contactos y cambio el tipo
-    -> portafolio es FK
-    -> servicios es FK
-    -> comisiones es FK
-Chat
-    -> falta id
-"""
+    @property
+    def descripcion(self) -> str:
+        return self._descripcion
+
+    @descripcion.setter
+    def descripcion(self, descripcion: str) -> None:
+        self._descripcion = descripcion
+
+    @property
+    def precio(self) -> Dinero:
+        return self._precio
+
+    @precio.setter
+    def precio(self, precio: Dinero) -> None:
+        self._precio = precio
+
+    @property
+    def es_extra(self) -> bool:
+        return self._es_extra
+
+    @es_extra.setter
+    def es_extra(self, es_extra: bool) -> None:
+        self._es_extra = es_extra
+
+    @property
+    def id(self) -> int:
+        return self._id
+
+    @id.setter
+    def id(self, id: int) -> None:
+        self._id = id
+                

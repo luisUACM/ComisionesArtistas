@@ -31,7 +31,6 @@ def perfil_artista(id: int):
     artista.portafolio = portafolio
     artista.comisiones = [servicio, servicio]
 
-    artista.
     return render_template(
         'perfil_artista.html', 
         title=artista.nombre, 
