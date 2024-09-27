@@ -1,0 +1,46 @@
+    <!-- Sección de Búsqueda -->
+    <section class="container mb-5">
+        <div class="row">
+            <div class="col-md-8">
+                <input type="text" class="form-control" placeholder="Buscar por servicio, etiqueta o artista" aria-label="Buscar" style="width: 100%;">
+            </div>
+            <div class="col-md-4 d-flex justify-content-end">
+                <button class="btn btn-primary me-2">Buscar</button>
+                <button class="btn btn-secondary" data-bs-toggle="collapse" data-bs-target="#advancedSearch">Filtros</button>
+            </div>
+        </div>
+        <div class="collapse" id="advancedSearch">
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <select class="form-select" aria-label="Servicios">
+                        <option value="">Servicios</option>
+                        <option value="ilustracion">Ilustración</option>
+                        <option value="diseno">Diseño</option>
+                        <option value="3d">3D</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-select" aria-label="Etiquetas">
+                        <option value="">Etiquetas</option>
+                        <option value="anime">Anime</option>
+                        <option value="realismo">Realismo</option>
+                        <option value="fantasia">Fantasía</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-select" aria-label="Artistas">
+                        <option value="">Artistas</option>
+                        <option value="artista1">Artista 1</option>
+                        <option value="artista2">Artista 2</option>
+                        <option value="artista3">Artista 3</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Aquí se incluye el contenido del bloque exhibicion_arte -->
+    {% block exhibicion %}
+        {% include 'exhibicion_arte.html' %}
+    {% endblock %}
+
+

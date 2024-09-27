@@ -442,7 +442,7 @@ class Comision:
     def cantidad(self) -> int:
         return self._cantidad
 
-    @id.setter
+    @cantidad.setter
     def cantidad(self, cantidad: int) -> None:
         self._cantidad = cantidad
 
