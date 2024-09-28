@@ -6,6 +6,7 @@ from ..modelo.model import Usuario
 from ..modelo.model import Arte
 from ..modelo.model import Servicio
 from ..modelo.model import Dinero
+from ..modelo.model import Contacto
 
 dao_usuario: UsuarioDao = UsuarioDao()
 
@@ -13,10 +14,10 @@ dao_usuario: UsuarioDao = UsuarioDao()
 
 @app.route('/artista/<int:id>')
 def perfil_artista(id: int):
-    artista = Usuario('test@gmail', '123', 'Misaki', Usuario.Rol.ARTISTA, 1, 
+    artista = Usuario('test@gmail', '123', 'Misaki', [Usuario.Rol.ARTISTA], 1, 
                     biografia='🇲🇽| Noob | Lic. en Diseño Gráfico 🖋| Clip Studio Paint | No le hago nariz a los Chibis | 3/3 | ☕️',
-                    redes_sociales=[(Usuario.RedSocial.OTRA, 'https://vgen.co/misakibyakko'), 
-                                    (Usuario.RedSocial.TWITTER, 'https://x.com/MisakiByakko')],
+                    contactos=[(Contacto.TipoContacto.OTRA, 'https://vgen.co/misakibyakko'), 
+                                    (Contacto.TipoContacto.TWITTER, 'https://x.com/MisakiByakko')],
                     foto_perfil='fotos_perfil/1.jpg' )
     portafolio: list[Arte] = [
                             Arte(artista, 'arte_portafolio/1.png', '1', 'png'),

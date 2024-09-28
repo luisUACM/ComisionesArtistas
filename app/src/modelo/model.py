@@ -62,7 +62,7 @@ class Usuario:
                 correo: str, 
                 contrasena: str, 
                 nombre: str, 
-                rol: Rol, 
+                rol: list[Rol], 
                 id: int = None, 
                 biografia: str = '',
                 foto_perfil: str = '/fotos_perfil/generic.webp',
@@ -76,7 +76,7 @@ class Usuario:
         self._correo: str = correo
         self._contrasena: str = contrasena
         self._nombre: str = nombre
-        self._rol: self.Rol = rol
+        self._rol: list[self.Rol] = rol
         self._id: int = id
         self._biografia: str = biografia
         self._foto_perfil: str = foto_perfil
@@ -111,11 +111,11 @@ class Usuario:
         self._nombre = nombre
 
     @property
-    def rol(self) -> str:
+    def rol(self) -> list[Rol]:
         return self._rol
     
     @rol.setter
-    def rol(self, rol: Rol):
+    def rol(self, rol: list[Rol]):
         self._rol = rol
 
     @property
@@ -181,6 +181,9 @@ class Usuario:
     @contactos.setter
     def contactos(self, contactos: list['Contacto']):
         self._contactos = contactos
+    
+    def esta_disponible() -> bool:
+        pass
 
 #Fin clase usuario
 
@@ -574,7 +577,7 @@ class Chat:
 class Arte:
     def __init__(
                 self,
-                artista: int,
+                artista: Usuario,
                 ruta: str,
                 nombre_archivo: str,
                 id: int = None,
