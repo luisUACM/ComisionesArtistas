@@ -1,0 +1,22 @@
+<!-- Sección de Exhibidor de Arte -->
+<section class="container">
+    <h2 class="text-center mb-4">Exhibición de Arte & Servicios</h2>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="mb-0"></h4>
+        <button class="btn btn-success">Mostrar disponibles</button>
+    </div>
+    <div class="row">
+        {% for usuario in usuarios %}
+        {% if usuario.rol != 2 %} <!--Falta ver si si hace bien el filtro-->
+        <!-- Tarjeta de Servicio -->
+            {% include 'tarjeta_servicio.html'  %}
+        {% endif %}
+        {% endfor %}
+
+        <!-- Más tarjetas pueden ser añadidas aquí... -->
+
+    </div>
+
+    <!-- Paginación -->
+    {% include 'paginacion.html'  %}
+</section>

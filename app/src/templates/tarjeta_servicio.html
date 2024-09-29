@@ -1,0 +1,16 @@
+<div class="col-md-4 mb-4">
+    <div class="card">
+        <img src="{{ url_for('static', filename='img/broly.jpg') }}" class="card-img-top" alt="Imagen del Servicio">
+        <!--<img src="{{ url_for('static', filename=usuario.servicios[0].obtener_ruta_primera_arte()) }}" class="card-img-top" alt="Imagen del Servicio">-->
+        <div class="card-body">
+            <h5 class="card-title"><strong>Servicio: </strong>{{usuario.servicios[0].titulo}}</h5>
+            <p class="card-text"><strong>Artista:</strong> {{usuario.nombre}}</p>
+            <p class="card-text"><strong>Disponibilidad:</strong>{% if usuario.esta_disponible() %} Disponible {% else %} No disponible {% endif %}</p>
+            <p class="card-text"><strong>Etiquetas:</strong>{{usuario.servicios[0].dame_etiquetas()}}</p>
+            <p class="card-text"><strong>Costo de servicio:</strong> {{usuario.servicios[0].dame_costo_base() }}</p>
+            <p class="card-text"><strong>Descripción:</strong> {{usuario.servicios[0].dame_descripcion()}}<br></p>
+            <a href="/perfil-artista" class="btn btn-outline-primary">Ver perfil de Artista</a>
+            <a href="/comisionar" class="btn btn-primary">Comisionar</a>
+        </div>
+    </div>
+</div>
