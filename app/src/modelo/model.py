@@ -63,6 +63,7 @@ class Usuario:
                 contrasena: str, 
                 nombre: str, 
                 rol: Rol, 
+                disponible:bool =True, #Nuevo atributo
                 id: int = None, 
                 biografia: str = '',
                 foto_perfil: str = '/fotos_perfil/generic.webp',
@@ -77,6 +78,7 @@ class Usuario:
         self._contrasena: str = contrasena
         self._nombre: str = nombre
         self._rol: self.Rol = rol
+        self._disponible: bool = disponible
         self._id: int = id
         self._biografia: str = biografia
         self._foto_perfil: str = foto_perfil
@@ -117,6 +119,14 @@ class Usuario:
     @rol.setter
     def rol(self, rol: Rol):
         self._rol = rol
+
+    @property
+    def disponible(self) -> bool:
+        return self._disponible
+    
+    @rol.setter
+    def disponible(self, disponible: bool):
+        self._disponible = disponible
 
     @property
     def id(self) -> str:
@@ -189,11 +199,13 @@ class Servicio:
     def __init__(
                 self, 
                 titulo: str, 
-                conceptos: list['Concepto'],
+                conceptos: list['Concepto'],  
                 piezas_arte: list['Arte'],
                 contrato: list[str],
                 id: int = None,
                 artista: Usuario = None
+             
+
                 ) -> None:
         self._titulo = titulo
         self._conceptos = conceptos
@@ -201,6 +213,32 @@ class Servicio:
         self._contrato = contrato
         self._id = id
         self._artista = artista
+
+    def obtener_ruta_primera_arte(self) -> str:
+        if self._piezas_arte:
+            return self._piezas_arte[0].ruta  # Retorna la ruta de la primera obra de arte
+        return ""  # Retorna una cadena vacía si no hay arte en la lista
+
+    def dame_costo_base(self) -> str:
+        for concepto in self._conceptos:
+            if not concepto.es_extra:  
+                costo = concepto.precio._cantidad  
+                moneda = concepto.precio.moneda.name  # Asegúrate de que `moneda` sea un enum o un objeto que tenga un atributo `name`.
+                return f"${costo:.2f} {moneda}"  # Formato de dos decimales y espacio entre costo y moneda
+        return "0.00"  # Si no hay concepto que cumpla la condición, devuelve "0.00"
+
+    def dame_etiquetas(self) -> list[str]:
+        # Verificar si hay al menos una pieza de arte en la lista
+        if self._piezas_arte:
+            # Obtener las etiquetas del primer elemento de la lista de piezas de arte
+            return self._piezas_arte[0].etiquetas  # Asumiendo que cada objeto 'Arte' tiene un atributo 'etiquetas'
+        return []  # Retornar lista vacía si no hay piezas de arte
+    
+    def dame_descripcion(self) -> str:
+        for concepto in self._conceptos:
+            if not concepto.es_extra:  # Verificar si es_extra es False
+                return concepto._descripcion # Devuelve la cantidad del precio del concepto
+        return 0.0  # Si no hay concepto que cumpla la condición
     
     @property
     def titulo(self) -> str:
