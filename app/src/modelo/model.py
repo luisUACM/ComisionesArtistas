@@ -62,7 +62,7 @@ class Usuario:
                 correo: str, 
                 contrasena: str, 
                 nombre: str, 
-                rol: list[Rol], 
+                roles: list[Rol], 
                 id: int = None, 
                 biografia: str = '',
                 foto_perfil: str = '/fotos_perfil/generic.webp',
@@ -76,7 +76,7 @@ class Usuario:
         self._correo: str = correo
         self._contrasena: str = contrasena
         self._nombre: str = nombre
-        self._rol: list[self.Rol] = rol
+        self._roles: list[self.Rol] = roles
         self._id: int = id
         self._biografia: str = biografia
         self._foto_perfil: str = foto_perfil
@@ -111,12 +111,12 @@ class Usuario:
         self._nombre = nombre
 
     @property
-    def rol(self) -> list[Rol]:
-        return self._rol
+    def roles(self) -> list[Rol]:
+        return self._roles
     
-    @rol.setter
-    def rol(self, rol: list[Rol]):
-        self._rol = rol
+    @roles.setter
+    def roles(self, roles: list[Rol]):
+        self._roles = roles
 
     @property
     def id(self) -> str:
