@@ -1,0 +1,51 @@
+<div class="card sticky-sm-top">
+    <img src="{{ url_for('uploads', archivo=usuario.foto_perfil) }}" class="card-img-top">
+    <div class="card-body">
+        <div class="row mb-2">
+            <div class="col-10">
+                <h5 class="card-title">{{ usuario.nombre }}</h5>
+            </div>
+            <div class="col-2">
+            {% if id_cuenta == usuario.id %}
+                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalEditar">
+                    <img src="{{ url_for('static', filename='img/edit.webp') }}"  height="15" width="15">
+                </button>
+            {% endif %}
+            </div>
+        </div>
+        <p class="card-text">{{ usuario.biografia }}</p>
+    </div>
+    {% if usuario.contactos | length > 0 %}
+        <ul class="list-group list-group-flush">
+            {% for r in usuario.contactos %}
+                <li class="list-group-item">
+                    <img src="{{ url_for('static', filename='img/' ~ r.0.value ~ '.webp') }}" width="15" height="15">
+                    {% if r.0.value == 'Link'%}
+                        <a href="{{ r.1 }}" class="card-link">{{ r.1 }}</a>
+                    {% else %}
+                        <a href="{{ r.1 }}" class="card-link">{{ r.0.value }}</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+
+<!-- Modal para editar -->
+<div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="modalEditarLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

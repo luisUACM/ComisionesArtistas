@@ -1,6 +1,7 @@
 from flask import current_app as app
 from flask import render_template
 from flask import send_from_directory
+from flask import session
 from ..persistence.dao.usuarioDao import UsuarioDao
 from ..modelo.model import Usuario
 from ..modelo.model import Arte
@@ -14,7 +15,7 @@ dao_usuario: UsuarioDao = UsuarioDao()
 
 @app.route('/artista/<int:id>')
 def perfil_artista(id: int):
-    artista = Usuario('test@gmail', '123', 'Misaki', [Usuario.Rol.ARTISTA], 1, 
+    artista = Usuario('test@gmail', '123', 'Misaki', [Usuario.Rol.ARTISTA], id, 
                     biografia='🇲🇽| Noob | Lic. en Diseño Gráfico 🖋| Clip Studio Paint | No le hago nariz a los Chibis | 3/3 | ☕️',
                     contactos=[(Contacto.TipoContacto.OTRA, 'https://vgen.co/misakibyakko'), 
                                     (Contacto.TipoContacto.TWITTER, 'https://x.com/MisakiByakko')],
@@ -30,13 +31,25 @@ def perfil_artista(id: int):
                             [Arte(artista, 'arte_portafolio/1.png', '1', 'png'), Arte(artista, 'arte_portafolio/2.png', '2', 'png')], 
                             'Contrato.txt')
     artista.portafolio = portafolio
-    artista.comisiones = [servicio, servicio]
+    artista.servicios = [servicio, servicio, servicio]
+    
+    es_artista = False
+    es_cliente = False
+    for r in artista.roles:
+        if r == Usuario.Rol.ARTISTA:
+            es_artista = True
+        elif r == Usuario.Rol.CLIENTE:
+            es_cliente = True
+    id_cuenta = session['id_cuenta']
 
     return render_template(
         'perfil_artista.html', 
         title=artista.nombre, 
-        artista=artista,
-        archivo='fotos_perfil/1.webp'
+        usuario=artista,
+        archivo='fotos_perfil/1.webp',
+        es_artista = es_artista,
+        es_cliente = es_cliente,
+        id_cuenta = id_cuenta
         )
 
 @app.route('/uploads/<path:archivo>')

@@ -1,0 +1,12 @@
+<div class="tab-pane fade show active" id="tab-portafolio" role="tabpanel" aria-labelledby="tabPortafolio" tabindex="0">
+    {% for fila in usuario.portafolio | batch(3) %}
+        <div class="row">
+            {% for i in fila %}
+            <div class="col gy-4">
+                <h3>{{ i.titulo }}</h3>
+                <img src="{{ url_for('uploads', archivo=i.ruta.0) }}" class="img-fluid">
+            </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
