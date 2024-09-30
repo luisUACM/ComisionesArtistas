@@ -3,14 +3,29 @@
         <img src="{{ url_for('static', filename='img/broly.jpg') }}" class="card-img-top" alt="Imagen del Servicio">
         <!--<img src="{{ url_for('static', filename=usuario.servicios[0].obtener_ruta_primera_arte()) }}" class="card-img-top" alt="Imagen del Servicio">-->
         <div class="card-body">
-            <h5 class="card-title"><strong>Servicio: </strong>{{usuario.servicios[0].titulo}}</h5>
-            <p class="card-text"><strong>Artista:</strong> {{usuario.nombre}}</p>
-            <p class="card-text"><strong>Disponibilidad:</strong>{% if usuario.esta_disponible() %} Disponible {% else %} No disponible {% endif %}</p>
-            <p class="card-text"><strong>Etiquetas:</strong>{{usuario.servicios[0].dame_etiquetas()}}</p>
-            <p class="card-text"><strong>Costo de servicio:</strong> {{usuario.servicios[0].dame_costo_base() }}</p>
-            <p class="card-text"><strong>Descripción:</strong> {{usuario.servicios[0].dame_descripcion()}}<br></p>
-            <a href="/perfil-artista" class="btn btn-outline-primary">Ver perfil de Artista</a>
-            <a href="/comisionar" class="btn btn-primary">Comisionar</a>
+            {{myvar}}
+            <h5 class="card-title fw-bold">{{servicio.titulo}}</h5>
+            <p class="card-text mb-3">{{servicio.dame_etiquetas()}}</p>
+            <hr>
+            <div class="row mb-3">
+                <div class="col">
+                    <a class="card-text link-info link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover " href="{{'/artista/' ~ usuario.id}}">{{usuario.nombre}}</a>
+                </div>
+                <div class="col">
+                    {% if usuario.esta_disponible() %} 
+                        <p class="card-text text-success text-end fw-semibold">Disponible</p> 
+                    {% else %} 
+                        <p class="card-text text-danger">Ocupado</p>
+                    {% endif %}
+                </div>
+            </div>
+            <p class="card-text">{{servicio.dame_descripcion()}}<br></p>
+            <p class="card-text"><strong>Costo:</strong> {{servicio.dame_costo_base() }}</p>
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    <a href="/comisionar" class="btn btn-primary">Comisionar</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

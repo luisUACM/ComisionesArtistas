@@ -4,7 +4,7 @@
             {% for i in fila %}
             <div class="col gy-4">
                 <h3>{{ i.titulo }}</h3>
-                <img src="{{ url_for('uploads', archivo=i.ruta.0) }}" class="img-fluid">
+                <img src="{{ url_for('uploads', filename=i.ruta.0) }}" class="img-fluid">
             </div>
             {% endfor %}
         </div>

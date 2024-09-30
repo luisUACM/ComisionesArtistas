@@ -1,7 +1,7 @@
 from flask import current_app as app
 from flask import render_template
 from flask import send_from_directory
-from flask import session
+from flask import g
 from ..persistence.dao.usuarioDao import UsuarioDao
 from ..modelo.model import Usuario
 from ..modelo.model import Arte
@@ -14,8 +14,8 @@ dao_usuario: UsuarioDao = UsuarioDao()
 #NOTA: requiere id de artista en URL para ingresar a su perfil
 
 @app.route('/artista/<int:id>')
-def perfil_artista(id: int):
-    artista = Usuario('test@gmail', '123', 'Misaki', [Usuario.Rol.ARTISTA], id, 
+def artista(id: int):
+    artista = Usuario('test@gmail', '123', 'Misaki', [Usuario.Rol.ARTISTA, Usuario.Rol.CLIENTE], id, 
                     biografia='🇲🇽| Noob | Lic. en Diseño Gráfico 🖋| Clip Studio Paint | No le hago nariz a los Chibis | 3/3 | ☕️',
                     contactos=[(Contacto.TipoContacto.OTRA, 'https://vgen.co/misakibyakko'), 
                                     (Contacto.TipoContacto.TWITTER, 'https://x.com/MisakiByakko')],
@@ -40,18 +40,15 @@ def perfil_artista(id: int):
             es_artista = True
         elif r == Usuario.Rol.CLIENTE:
             es_cliente = True
-    id_cuenta = session['id_cuenta']
 
     return render_template(
         'perfil_artista.html', 
         title=artista.nombre, 
         usuario=artista,
-        archivo='fotos_perfil/1.webp',
         es_artista = es_artista,
-        es_cliente = es_cliente,
-        id_cuenta = id_cuenta
+        es_cliente = es_cliente
         )
 
-@app.route('/uploads/<path:archivo>')
-def uploads(archivo: str):
-    return send_from_directory('uploads', archivo)
+@app.route('/uploads/<path:filename>')
+def uploads(filename: str):
+    return send_from_directory('uploads', filename)

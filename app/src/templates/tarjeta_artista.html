@@ -1,12 +1,12 @@
 <div class="card sticky-sm-top">
-    <img src="{{ url_for('uploads', archivo=usuario.foto_perfil) }}" class="card-img-top">
+    <img src="{{ url_for('uploads', filename=usuario.foto_perfil) }}" class="card-img-top">
     <div class="card-body">
         <div class="row mb-2">
             <div class="col-10">
                 <h5 class="card-title">{{ usuario.nombre }}</h5>
             </div>
             <div class="col-2">
-            {% if id_cuenta == usuario.id %}
+            {% if g.id_cuenta == usuario.id %}
                 <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modalEditar">
                     <img src="{{ url_for('static', filename='img/edit.webp') }}"  height="15" width="15">
                 </button>

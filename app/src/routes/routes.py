@@ -1,6 +1,9 @@
 from flask import current_app as app
 from flask import render_template
 from flask import session
+from flask import redirect
+from flask import g
+from flask import request
 import random
 
 from ..modelo.model import Usuario
@@ -99,12 +102,10 @@ def generar_servicios(cantidad=15) -> list[Servicio]:
 @app.route('/')
 @app.route('/inicio')
 def home():
-    #Aqui se hace procesamiento y se devuelve una template renderizada, tambien se pueden agregar variables
-    session['id_cuenta'] = 1   #Simulacion de login
     # Crear 15 instancias de la clase Arte
 
     # Crear 15 instancias de la clase Usuario con rol de ARTISTA
-    usuarios = []
+    usuarios: list[Usuario] = []
     for i in range(15):
         usuario = Usuario(
             correo=f"user{i}@ejemplo.com",
@@ -134,3 +135,16 @@ def home():
             
     return render_template('index.html', usuarios=usuarios)
 #Para poder mostrar esta debo de crear Usuarios,Arte,Comisiones,Servicios,Conceptos,Dinero
+
+
+@app.route('/login', methods=['POST'])
+def login():
+    session['id_cuenta'] = 1   #Simulacion de login
+    return redirect('/')
+
+@app.before_request
+def before_request():
+    if 'id_cuenta' in session:
+        g.id_cuenta = session['id_cuenta']
+    else:
+        g.id_cuenta = None

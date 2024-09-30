@@ -12,20 +12,34 @@
 
     <!-- Encabezado -->
     {% block header %}
-    <header class="bg-light py-3 mb-4">
-        <div class="container d-flex justify-content-between align-items-center">
-            <h1 class="text-center flex-grow-1">Comisión de Artistas</h1>
-            <div class="d-flex align-items-center">
-                <select class="form-select me-3" aria-label="Tipo de moneda">
-                    <option value="usd">USD</option>
-                    <option value="eur">EUR</option>
-                    <option value="mxn">MXN</option>
-                </select>
-                <button class="btn btn-outline-primary me-2">Iniciar sesión</button>
-                <button class="btn btn-primary">Registrarse</button>
+    <div class="cotainer">
+        <header class="bg-light py-3 mb-4">
+            <div class="row d-flex justify-content-between align-items-center me-0">
+                <div class="col-3">
+                    <a href="/" class="ms-4"><img src="{{url_for('static', filename='/img/home.webp')}}" height="50" width="50"></a>
+                </div>
+                <div class ="col-6">
+                    <h1 class="text-center flex-grow-1">Comisión de Artistas</h1>
+                </div>
+                <div class="col-3 d-flex align-items-center">
+                    <div class="col3 offset-md-3 me-3">
+                        <select class="form-select" aria-label="Tipo de moneda">
+                            <option value="mxn">MXN</option>
+                            <option value="usd">USD</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        {% if g.id_cuenta != None %}
+                            <img src="{{url_for('uploads', filename='/fotos_perfil/generic.webp')}}" class="rounded-circle" width="50" height="50">
+                        {% else %}
+                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalLogin">Iniciar sesión</button>
+                            <button class="btn btn-primary">Registrarse</button>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-        </div>
-    </header>
+        </header>
+    </div>
     {% endblock %}
 
     <!-- Contenido Principal -->
@@ -42,6 +56,34 @@
         </div>
     </footer>
     {% endblock %}
+
+    <!-- Ventana modal Login -->
+    <div class="modal fade" id="modalLogin" tabindex="-1" aria-labelledby="modalLoginLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="modalEditarLabel">Iniciar sesión</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="/login">
+                        <div class="mb-3">
+                            <label for="exampleInputEmail1" class="form-label">Correo</label>
+                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="exampleInputPassword1">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button submit" class="btn btn-primary">Iniciar sesión</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                      </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
