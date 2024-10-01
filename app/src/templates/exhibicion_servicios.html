@@ -10,10 +10,11 @@
         {% set servicio = usuario.servicios[0] %}
         {% if usuario.rol != 2 %} <!--Falta ver si si hace bien el filtro-->
         <!-- Tarjeta de Servicio -->
+        <div class="col-md-4 mb-4">
             {% include 'tarjeta_servicio.html'  %}
+        </div>
         {% endif %}
-        {% endfor %}
-
+        {% endfor %}    
         <!-- Más tarjetas pueden ser añadidas aquí... -->
 
     </div>

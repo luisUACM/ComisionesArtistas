@@ -30,7 +30,7 @@
                     </div>
                     <div class="col-6">
                         {% if g.id_cuenta != None %}
-                            <img src="{{url_for('uploads', filename='/fotos_perfil/generic.webp')}}" class="rounded-circle" width="50" height="50">
+                            <a href="/mi_perfil" class="ms-4"><img src="{{url_for('uploads', filename='/fotos_perfil/generic.webp')}}" class="rounded-circle" width="50" height="50"></a>
                         {% else %}
                             <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalLogin">Iniciar sesión</button>
                             <button class="btn btn-primary">Registrarse</button>
