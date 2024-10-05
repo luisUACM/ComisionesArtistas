@@ -372,10 +372,11 @@ class Mensaje:
                 fecha_hora: datetime = datetime.now(), 
                 chat: 'Chat' = None    
                 ) -> None:
-        self._usuario = usuario
-        self._mensaje = mensaje
+        self._usuario: Usuario = usuario
+        self._mensaje: Mensaje = mensaje
         self._id: int = id
-        self._fecha_hora = fecha_hora
+        self._fecha_hora: datetime = fecha_hora
+        self._chat: Chat = chat
 
     @property
     def usuario(self) -> 'Usuario':
@@ -555,13 +556,15 @@ class Chat:
                 cliente: Usuario,  
                 mensajes: list[Mensaje] = [],  
                 esta_deacuerdo: tuple[bool, bool] = (False, False),     #(artista, cliente)
-                solicitud_cambios: bool = False
+                solicitud_cambios: bool = False,
+                comision: Comision = None
                 ) -> None:
         self._artista = artista
         self._cliente = cliente
         self._mensajes = mensajes
         self._esta_deacuerdo = esta_deacuerdo
         self._solicitud_cambios = solicitud_cambios
+        self._comision = comision
 
     @property
     def artista(self) -> Usuario:
@@ -602,6 +605,15 @@ class Chat:
     @solicitud_cambios.setter
     def solicitud_cambios(self, solicitud_cambios: bool) -> None:
         self._solicitud_cambios = solicitud_cambios
+
+    @property
+    def comision(self) -> Comision:
+        return self._comision
+
+    @comision.setter
+    def comision(self, comision: Comision) -> None:
+        self._comision = comision
+        
 #Fin clase chat
 
 #Inicio clase Arte
