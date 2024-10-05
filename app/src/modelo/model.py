@@ -67,10 +67,10 @@ class Usuario:
                 biografia: str = '',
                 foto_perfil: str = '/fotos_perfil/generic.webp',
                 moneda: Dinero.TipoMoneda = Dinero.TipoMoneda.MXN,
-                portafolio: list['Arte'] = [],     
-                comisiones: list['Comision'] = [], 
-                servicios: list['Servicio'] = [],  
-                contactos: list['Contacto'] = []   
+                portafolio: list['Arte'] = [],
+                comisiones: list['Comision'] = [],
+                servicios: list['Servicio'] = [],
+                contactos: list['Contacto'] = []
                 ) -> None:
         
         self._correo: str = correo

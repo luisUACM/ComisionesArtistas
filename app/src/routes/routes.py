@@ -4,6 +4,7 @@ from flask import session
 from flask import redirect
 from flask import g
 from flask import request
+from flask import send_from_directory
 import random
 
 from ..modelo.model import Usuario
@@ -144,7 +145,12 @@ def login():
 
 @app.before_request
 def before_request():
+    g.ruta = request.endpoint
     if 'id_cuenta' in session:
         g.id_cuenta = session['id_cuenta']
     else:
         g.id_cuenta = None
+
+@app.route('/uploads/<path:filename>')
+def uploads(filename: str):
+    return send_from_directory('uploads', filename)

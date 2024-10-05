@@ -1,9 +1,4 @@
 <div class="tab-pane fade show active" id="tab-portafolio" role="tabpanel" aria-labelledby="tabPortafolio" tabindex="0">
-    {% if g.id_cuenta == usuario.id %}
-        <div class="text-end mt-3">
-            <button class="btn btn-primary">Editar portafolio</button>
-        </div>
-    {% endif %}
     {% for fila in usuario.portafolio | batch(3) %}
         <div class="row">
             {% for i in fila %}
@@ -14,4 +9,9 @@
             {% endfor %}
         </div>
     {% endfor %}
+    {% if g.id_cuenta == usuario.id %}
+        <div class="text-center mt-5">
+            <button class="btn btn-primary btn-lg">Editar portafolio</button>
+        </div>
+    {% endif %}
 </div>

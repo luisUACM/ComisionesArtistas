@@ -26,14 +26,9 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="tabServicios" data-bs-toggle="tab" data-bs-target="#tab-servicios" type="button" role="tab" aria-controls="tab-servicios" aria-selected="false">Servicios</button>
                     </li>
-                    {% if es_cliente %}
+                    {% if g.id_cuenta == usuario.id %}
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="tabComisiones" data-bs-toggle="tab" data-bs-target="#tab-comisiones" type="button" role="tab" aria-controls="tab-comisiones" aria-selected="false">Comisiones</button>
-                        </li>
-                    {% endif %}
-                    {% if es_artista %}
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="tabPedidos" data-bs-toggle="tab" data-bs-target="#tab-pedidos" type="button" role="tab" aria-controls="tab-pedidos" aria-selected="false">Pedidos</button>
                         </li>
                     {% endif %}
                 </ul>
@@ -43,9 +38,9 @@
                     <!-- Tab servicios -->
                     {% include 'servicios.html' %}
                     <!-- Tab comisiones -->
-                    {% include 'comisiones.html' %}
-                    <!-- Tab pedidos -->
-                    {% include 'pedidos.html' %}
+                    {% if g.id_cuenta == usuario.id %}
+                        {% include 'comisiones.html' %}
+                    {% endif %}
                 </div>
             </div>
         </div>
