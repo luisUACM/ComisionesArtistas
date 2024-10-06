@@ -545,6 +545,26 @@ class Comision:
     def pagos(self, pagos: list[Pago]):
         self._pagos = pagos
 
+    def dame_pago_total(self) -> float:
+        total = 0
+        for p in self.pagos:
+            total += p.monto.cantidad
+        return total
+
+    def une_concepto_pago(self) -> list[tuple['Concepto', Pago]]:
+        lista = []
+        for c, p in zip(self.conceptos, self.pagos):
+            lista.append((c,p))
+        return lista
+    
+    def esta_pagada(self) -> bool:
+        pagado = True
+        for p in self.pagos:
+            if p.estado is not Pago.EstadoPago.PAGADO:
+                pagado = False
+                break
+        return pagado
+
 #Fin clase Comision
 
 #Inicio clase Chat

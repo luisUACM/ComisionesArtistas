@@ -1,0 +1,30 @@
+<div class="input-group ">
+    <input type="text" class="form-control ms-5 border border-secondary" placeholder="Ingresa tu mensaje" aria-label="Recipient's username" aria-describedby="btn-enviar">
+    {% if chat.cliente.id == g.id_cuenta %} 
+        <!-- EstadosComision.POR_PAGAR -->
+        {% if chat.comision.estado.value == 2 %} 
+            <button class="btn btn-success">Pagar</button>
+        <!-- EstadosComision.EN_PROCESO -->
+        {% elif chat.comision.estado.value == 3 and chat.solicitud_cambios == False %}
+            <button class="btn btn-secondary">Solicitar cambio</button>
+        {% elif chat.comision.estado.value == 4 %}
+            <button class="btn btn-outline-info">Descargar arte</button>
+        {% endif %}
+    {% elif chat.artista.id == g.id_cuenta %}
+        <!-- EstadosComision.EN_PROCESO -->
+        {% if chat.comision.estado.value == 3 %}
+            {% if chat.solicitud_cambios == True %} 
+                <button class="btn btn-danger">Denegar cambios</button>
+                <button class="btn btn-warning">Aceptar cambios</button>
+            {% else %}
+                {% if chat.comision.esta_pagada() %}
+                    <button class="btn btn-outline-info">Subir arte</button>
+                {% endif %}
+            {% endif %}
+        <!-- EstadosComision.TERMINADA -->
+        {% elif chat.comision.estado.value == 4 %}
+            <button class="btn btn-outline-info">Ver arte</button>
+        {% endif %}
+    {% endif %}
+    <button class="btn btn-primary me-5" id="btn-enviar">Enviar</button>
+</div>

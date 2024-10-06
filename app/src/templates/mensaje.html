@@ -1,0 +1,23 @@
+{% if mensaje.usuario.id == g.id_cuenta %}
+    <div class="offset-md-4 col-1 pe-0 align-content-end flex-wrap text-end">
+        <div class="fw-light text-body-secondary" style="font-size: 13px;">{{ mensaje.fecha_hora.strftime("%d/%m/%Y") }}</div> 
+        <div class="fw-light text-body-secondary" style="font-size: 13px;">{{ mensaje.fecha_hora.strftime("%I:%M:%S %p") }}</div>
+    </div>
+    <div class="col-6">
+        <div class="border border-secondary rounded p-2">{{ mensaje.mensaje }}</div>
+    </div>
+    <div class="col-1">
+        <img src="{{ url_for('uploads', filename=mensaje.usuario.foto_perfil) }}" class="rounded-circle" height="60px" width="60px">
+    </div>
+{% else %}
+    <div class="col-1 text-end">
+        <img src="{{ url_for('uploads', filename=mensaje.usuario.foto_perfil) }}" class="rounded-circle" height="60px" width="60px">
+    </div>
+    <div class="col-6">
+        <div class="border border-secondary rounded p-2 ">{{ mensaje.mensaje }}</div>
+    </div>
+    <div class="col-1 ps-0 align-content-end flex-wrap">
+        <div class="fw-light text-body-secondary" style="font-size: 13px;">{{ mensaje.fecha_hora.strftime("%d/%m/%Y") }}</div> 
+        <div class="fw-light text-body-secondary" style="font-size: 13px;">{{ mensaje.fecha_hora.strftime("%I:%M:%S %p") }}</div>
+    </div>
+{% endif %}

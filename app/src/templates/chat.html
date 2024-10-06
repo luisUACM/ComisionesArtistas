@@ -1,98 +1,60 @@
 {% extends "base.html" %}
 
+{% block css %}
+    <link rel="stylesheet" href="../static/css/chat.css">
+{% endblock %}
+
 {% block content %}
     <div class="text-center mb-3 continer-fluid ms-4 me-4">
         <div class="row ms-0 me-0">
             <div class="col-6 offset-md-3">
-                <h2>X's Chat</h2>
+                {% if g.id_cuenta == chat.artista.id %}
+                    <h2>Chat de {{ chat.cliente.nombre }}</h2>
+                {% elif g.id_cuenta == chat.cliente.id %}
+                    <h2>Chat de {{ chat.artista.nombre }}</h2>
+                {% endif %}
             </div>
-            <div class="col-3 text-end pe-4">
-                <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalDetalles">Detalles</button>
-                <div class="btn-group" role="group">
-                    <!-- if otra persona -->
-                    <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off" disabled="true" checked="true">
-                    <label class="btn btn-outline-dark" for="btncheck1">Cliente</label>
-                    <!-- endif -->
-
-                    <!-- if misma persona -->
-                    <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
-                    <label class="btn btn-outline-secondary" for="btncheck2">Artista</label>
-                    <!-- endif -->
-                </div>
-            </div>
+            {% include 'cabecera_chat.html'%}
         </div>
     </div>
-    <div class="container-fluid p-0" style="height: 70vh;">
-        <div class="border border-secondary-subtle rounded overflow-auto overflow-x-hidden pt-4 pb-4 mb-3 ms-5 me-5" style="height: 90%">
-            <!-- for mensaje -->
-            <div class="row mt-3 mb-3 ms-0 me-0">
-                <!-- if otra persona -->
-                <div class="col-1 text-end">
-                    <img src="{{ url_for('uploads', filename='fotos_perfil/generic.webp') }}" class="rounded-circle" height="60px" width="60px">
+    <div class="container-fluid p-0 alto-pantalla">
+        <div class="border border-secondary-subtle rounded overflow-auto overflow-x-hidden pt-4 pb-4 mb-3 ms-5 me-5 caja-chat" id="chat-div">
+            {% for mensaje in chat.mensajes %}
+                <div class="row mt-3 mb-3 ms-0 me-0">
+                    {% include 'mensaje.html' %}
                 </div>
-                <div class="col-6">
-                    <div class="border border-secondary rounded p-2 ">
-                        Lorem ipsum dolor sit amet consectetur adipiscing elit class aliquet porta, nostra aliquam nisl fringilla nascetur malesuada posuere non tempor pellentesque, senectus scelerisque sodales ad mauris curabitur a sollicitudin litora. Litora dis placerat venenatis ad nibh luctus, tristique sollicitudin facilisis class justo habitasse sagittis, faucibus potenti non curabitur mus. Laoreet vehicula praesent dapibus sagittis dictum nostra pharetra, suscipit porttitor augue nec accumsan neque feugiat ac, mauris senectus venenatis risus montes magnis.
+            {% endfor %}
+            {% if chat.solicitud_cambios == True %}
+                {% if g.id_cuenta == chat.artista.id %}
+                    <div class="row mt-3 mb-3 ms-5 me-5 text-center">
+                        <hr>
+                        <div class="col text-info h4">{{chat.cliente.nombre}} solicitó nuevos cambios</div>
                     </div>
-                </div>
-                <!-- endif -->
-            </div>
-            <div class="row mt-3 mb-3 ms-0 me-0">
-                <!-- if misma persona -->
-                <div class="offset-md-5 col-6">
-                    <div class="border border-secondary rounded p-2 ">
-                        Lorem ipsum dolor sit amet consectetur adipiscing elit class aliquet porta, nostra aliquam nisl fringilla nascetur malesuada posuere non tempor pellentesque, senectus scelerisque sodales ad mauris curabitur a sollicitudin litora. Litora dis placerat venenatis ad nibh luctus, tristique sollicitudin facilisis class justo habitasse sagittis, faucibus potenti non curabitur mus. Laoreet vehicula praesent dapibus sagittis dictum nostra pharetra, suscipit porttitor augue nec accumsan neque feugiat ac, mauris senectus venenatis risus montes magnis.
+                {% elif g.id_cuenta == chat.cliente.id %}
+                    <div class="row mt-3 mb-3 ms-5 me-5 text-center">
+                        <hr>
+                        <div class="col text-info h4">Solcitaste nuevos cambios, esperando la respuesta de {{chat.artista.nombre}}</div>
                     </div>
-                </div>
-                <div class="col-1">
-                    <img src="{{ url_for('uploads', filename='fotos_perfil/generic.webp') }}" class="rounded-circle" height="60px" width="60px">
-                </div>
-                <!-- endif -->
-            </div>
-            <!-- endfor -->
+                {% endif %}
+            {% endif %}
         </div>
-        <div>
-            <div class="input-group ">
-                <input type="text" class="form-control ms-5 border border-secondary" placeholder="" aria-label="Recipient's username" aria-describedby="btn-enviar">
-                <button class="btn btn-secondary">Solicitar cambio</span>
-                <button class="btn btn-primary me-5" id="btn-enviar">Enviar</span>
+        
+        <!-- EstadosComision.ARCHIVADA -->
+        {% if chat.comision.estado.value == 5 %}
+            <div class="text-center">
+                {% if g.id_cuenta == chat.artista.id %}
+                    <button class="btn btn-primary btn-lg">Ver arte</button>
+                {% elif g.id_cuenta == chat.cliente.id%}
+                    <button class="btn btn-primary btn-lg">Descargar arte</button>
+                {% endif %}
             </div>
-        </div>
-    </div>
-
-    <!-- Ventana modal Login -->
-    <div class="modal fade" id="modalDetalles" tabindex="-1" aria-labelledby="modalDetallesLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="modalEditarLabel">Detalles de la comisión</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <h4 class="text-center">Servicios</h4>
-                    <table class="table table-sm">
-                        <thead>
-                            <tr>
-                                <th scope="col" colspan="3">Descripción</th>
-                                <th scope="col">Costo</th>
-                            </tr>
-                        </thead>
-                        <tbody class="table-group-divider">
-                            <!-- for conceptos -->
-                                <tr>
-                                    <td colspan="3">Lorem ipsum dolor sit amet consectetur adipiscing elit class aliquet porta, nostra aliquam nisl fringilla</td>
-                                    <td class="align-middle text-center">
-                                        <div class="h5 text-success">0000.00</div>
-                                    </td>
-                                </tr>
-                            <!-- endfor -->
-                        </tbody>
-                    </table>
-                    <div class="text-center">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        {% else %}
+            {% include 'barra_chat.html' %}
+        {% endif %}
     </div>
 {% endblock %}
+
+{% block javascript %}
+        <script src="{{ url_for('static', filename='../static/js/chat.js') }}"></script>
+{% endblock %}
+

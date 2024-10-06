@@ -1,0 +1,84 @@
+<div class="col-3 text-end pe-4 align-content-end flex-wrap">
+    <!-- EstadosComision.EN_PROCESO en adelante -->
+    {% if chat.comision.estado.value >= 3%}
+        <button class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalDetalles">Detalles</button>
+    {% endif %}
+    <div class="btn-group" role="group">
+        {% if g.id_cuenta == chat.artista.id %}
+            <!-- Checkbox Artista -->
+            {% if chat.esta_deacuerdo.0 == True %}
+                <input type="checkbox" class="btn-check btn-lg" id="btncheck1" autocomplete="off" checked>
+            {% else %}
+                <input type="checkbox" class="btn-check btn-lg" id="btncheck1" autocomplete="off">
+            {% endif %}
+            <label class="btn btn-outline-success" for="btncheck1">{{chat.artista.nombre}} <img src="{{ url_for('static', filename='img/ok.webp') }}" height="20" width="20"></label>
+            
+            <!-- Checkbox Cliente -->  
+            {% if chat.esta_deacuerdo.1 == True %}
+                <input type="checkbox" class="btn-check btn-lg" id="btncheck2" autocomplete="off" disabled="true" checked>
+            {% else %}
+                <input type="checkbox" class="btn-check btn-lg" id="btncheck2" autocomplete="off" disabled="true">
+            {% endif %}
+            <label class="btn btn-outline-success" for="btncheck2">{{chat.cliente.nombre}} <img src="{{ url_for('static', filename='img/ok.webp') }}" height="20" width="20"></label>
+        {% elif g.id_cuenta == chat.cliente.id %}
+            <!-- Checkbox Artista -->
+            {% if chat.esta_deacuerdo.0 == True %}
+                <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off" disabled="true" checked>
+            {% else %}
+                <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off" disabled="true">
+            {% endif %}
+            <label class="btn btn-outline-success" for="btncheck1">{{chat.artista.nombre}} <img src="{{ url_for('static', filename='img/ok.webp') }}" height="20" width="20"></label>
+            
+            <!-- Checkbox Cliente -->
+            {% if chat.esta_deacuerdo.1 == True %}
+                <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off" checked>
+            {% else %}
+                <input type="checkbox" class="btn-check" id="btncheck2" autocomplete="off">
+            {% endif %}
+            <label class="btn btn-outline-success" for="btncheck2">{{chat.cliente.nombre}} <img src="{{ url_for('static', filename='img/ok.webp') }}" height="20" width="20"></label>
+        {% endif %}
+    </div>
+
+    <!-- Ventana modal Login -->
+    {% if chat.comision.estado.value == 3 %}
+        <div class="modal fade" id="modalDetalles" tabindex="-1" aria-labelledby="modalDetallesLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalEditarLabel">Detalles de la comisión</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4 class="text-center">Servicios</h4>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th scope="col" colspan="3">Descripción</th>
+                                    <th scope="col">Costo</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-group-divider">
+                                {% for concepto, pago in chat.comision.une_concepto_pago() %}
+                                    <tr>
+                                        <td colspan="3">{{ concepto.descripcion }}</td>
+                                        <td class="align-middle text-center">
+                                            <div class="h5 text-success">{{ pago.monto.cantidad }}</div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="text-end">
+                            Total: <span class="text-success">{{ chat.comision.dame_pago_total() }}</span>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="text-center">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
