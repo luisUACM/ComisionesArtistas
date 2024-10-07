@@ -1,7 +1,7 @@
 from flask import current_app as app
 from flask import render_template
 from flask import g
-from ..persistence.dao.usuarioDao import UsuarioDao
+from ..persistence.dao.usuario_dao import UsuarioDao
 from ..modelo.model import Usuario
 from ..modelo.model import Arte
 from ..modelo.model import Servicio

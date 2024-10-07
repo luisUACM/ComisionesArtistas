@@ -1,0 +1,24 @@
+/* Estilos personalizados */
+.card-horizontal {
+    display: flex;
+    flex-direction: row;
+    border: 2px solid green; /* Borde verde */
+}
+
+.card-img-left {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.center-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.card-body {
+    flex: 1;
+}
