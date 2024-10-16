@@ -28,13 +28,28 @@
                 {% if g.id_cuenta == chat.artista.id %}
                     <div class="row mt-3 mb-3 ms-5 me-5 text-center">
                         <hr>
-                        <div class="col text-info h4">{{chat.cliente.nombre}} solicitó nuevos cambios</div>
+                        <div class="col text-info h4">{{ chat.cliente.nombre }} solicitó nuevos cambios</div>
                     </div>
                 {% elif g.id_cuenta == chat.cliente.id %}
                     <div class="row mt-3 mb-3 ms-5 me-5 text-center">
                         <hr>
-                        <div class="col text-info h4">Solcitaste nuevos cambios, esperando la respuesta de {{chat.artista.nombre}}</div>
+                        <div class="col text-info h4">Solcitaste nuevos cambios, esperando la respuesta de {{ chat.artista.nombre }}</div>
                     </div>
+                {% endif %}
+            {% endif %}
+            {% if chat.esta_deacuerdo.0 and chat.esta_deacuerdo.1 %}
+                {% if chat.comision.esta_pagada() and chat.comision.estado.value == 3 and not chat.solicitud_cambios %}
+                    {% if g.id_cuenta == chat.artista.id %}    
+                        <div class="row mt-3 mb-3 ms-5 me-5 text-center">
+                            <hr>
+                            <div class="col text-info h4">{{ chat.cliente.nombre }} realizó el pago</div>
+                        </div>
+                    {% elif g.id_cuenta == chat.cliente.id %}
+                        <div class="row mt-3 mb-3 ms-5 me-5 text-center">
+                            <hr>
+                            <div class="col text-info h4">Haz completado el pago correctamente</div>
+                        </div>
+                    {% endif %}
                 {% endif %}
             {% endif %}
         </div>

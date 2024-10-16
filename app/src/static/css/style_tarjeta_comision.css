@@ -2,7 +2,7 @@
 .card-horizontal {
     display: flex;
     flex-direction: row;
-    border: 2px solid green; /* Borde verde */
+    
 }
 
 .card-img-left {
@@ -21,4 +21,20 @@
 
 .card-body {
     flex: 1;
+}
+
+.borde-solicitada {
+    border: 2px solid rgb(240, 240, 60);
+}
+
+.borde-por-pagar {
+    border: 2px solid rgb(243, 135, 27);
+}
+
+.borde-en-proceso {
+    border: 2px solid green;
+}
+
+.borde-terminada {
+    border: 2px solid rgb(6, 49, 189);
 }

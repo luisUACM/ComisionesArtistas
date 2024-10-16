@@ -40,7 +40,7 @@
     </div>
 
     <!-- Ventana modal Login -->
-    {% if chat.comision.estado.value == 3 %}
+    {% if chat.comision.estado.value >= 3 %}
         <div class="modal fade" id="modalDetalles" tabindex="-1" aria-labelledby="modalDetallesLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -53,23 +53,23 @@
                         <table class="table table-sm">
                             <thead>
                                 <tr>
-                                    <th scope="col" colspan="3">Descripción</th>
+                                    <th scope="col" colspan="3" class="text-start">Descripción</th>
                                     <th scope="col">Costo</th>
                                 </tr>
                             </thead>
                             <tbody class="table-group-divider">
                                 {% for concepto, pago in chat.comision.une_concepto_pago() %}
                                     <tr>
-                                        <td colspan="3">{{ concepto.descripcion }}</td>
+                                        <td colspan="3" class="text-start">{{ concepto.descripcion }}</td>
                                         <td class="align-middle text-center">
-                                            <div class="h5 text-success">{{ pago.monto.cantidad }}</div>
+                                            <div class="text-success">$ {{ pago.monto.cantidad }}</div>
                                         </td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                         <div class="text-end">
-                            Total: <span class="text-success">{{ chat.comision.dame_pago_total() }}</span>
+                            Total: <span class="text-success fw-bold">$ {{ chat.comision.dame_pago_total() }}</span>
                         </div>
                     </div>
                     <div class="modal-footer">

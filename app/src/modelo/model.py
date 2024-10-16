@@ -20,7 +20,7 @@ class Dinero:
                 id: int = None
                 ) -> None:
         self._cantidad: float = cantidad
-        self._moneda: self.TipoMoneda = moneda
+        self._moneda: Dinero.TipoMoneda = moneda
         self._id: int = id
 
     @property
@@ -76,7 +76,7 @@ class Usuario:
         self._correo: str = correo
         self._contrasena: str = contrasena
         self._nombre: str = nombre
-        self._roles: list[self.Rol] = roles
+        self._roles: list[Usuario.Rol] = roles
         self._id: int = id
         self._biografia: str = biografia
         self._foto_perfil: str = foto_perfil
@@ -188,6 +188,22 @@ class Usuario:
             if c.estado == Comision.EstadosComision.EN_PROCESO or (c.estado == Comision.EstadosComision.POR_PAGAR and len(c.conceptos) > 2):
                 disponible = False
         return disponible
+    
+    def es_artista(self) -> bool:
+        es_artista = False
+        for r in self.roles:
+            if r == Usuario.Rol.ARTISTA:
+                es_artista = True
+                break
+        return es_artista
+
+    def es_cliente(self) -> bool:
+        es_cliente = False
+        for r in self.roles:
+            if r == Usuario.Rol.CLIENTE:
+                es_cliente = True
+                break
+        return es_cliente
 #Fin clase usuario
 
 #CLASE Servicio
@@ -211,8 +227,8 @@ class Servicio:
         self._artista = artista
 
     def obtener_ruta_primera_arte(self) -> str:
-        if self._piezas_arte:
-            return self._piezas_arte[0].ruta  # Retorna la ruta de la primera obra de arte
+        if self.piezas_arte:
+            return self.piezas_arte[0].ruta  # Retorna la ruta de la primera obra de arte
         return ""  # Retorna una cadena vacía si no hay arte en la lista
 
     def dame_costo_base(self) -> str:
@@ -307,7 +323,7 @@ class Pago:
         self._comision: Comision = comision
         self._cliente: Usuario = cliente
         self._monto: Dinero = monto
-        self._estado: self.EstadoPago = estado
+        self._estado: Pago.EstadoPago = estado
         self._id: int = id
         self._fecha_hora: datetime = fecha_hora
         
@@ -559,10 +575,13 @@ class Comision:
     
     def esta_pagada(self) -> bool:
         pagado = True
-        for p in self.pagos:
-            if p.estado is not Pago.EstadoPago.PAGADO:
-                pagado = False
-                break
+        if self.pagos != None:
+            for p in self.pagos:
+                if p.estado is not Pago.EstadoPago.PAGADO:
+                    pagado = False
+                    break
+        else:
+            pagado = False
         return pagado
 
 #Fin clase Comision
@@ -573,7 +592,8 @@ class Chat:
     def __init__(
                 self, 
                 artista: Usuario,  
-                cliente: Usuario,  
+                cliente: Usuario,
+                id: int = None,
                 mensajes: list[Mensaje] = [],  
                 esta_deacuerdo: tuple[bool, bool] = (False, False),     #(artista, cliente)
                 solicitud_cambios: bool = False,
@@ -581,6 +601,7 @@ class Chat:
                 ) -> None:
         self._artista = artista
         self._cliente = cliente
+        self._id = id
         self._mensajes = mensajes
         self._esta_deacuerdo = esta_deacuerdo
         self._solicitud_cambios = solicitud_cambios
@@ -601,6 +622,14 @@ class Chat:
     @cliente.setter
     def cliente(self, cliente: Usuario) -> None:
         self._cliente = cliente
+
+    @property
+    def id(self) -> int:
+        return self._id
+
+    @id.setter
+    def id(self, id: int) -> None:
+        self._id = id
 
     @property
     def mensajes(self) -> list[Mensaje]:

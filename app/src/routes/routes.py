@@ -13,6 +13,9 @@ from ..modelo.model import Usuario
 from ..modelo.model import Dinero
 from ..modelo.model import Concepto
 from ..modelo.model import Servicio
+from ..modelo.fabrica_objetos import FabricaObjetos
+
+fabrica: FabricaObjetos = FabricaObjetos()
 
 
 def generar_conceptos(cantidad: int) -> list[Concepto]:
@@ -103,44 +106,20 @@ def generar_servicios(cantidad=15) -> list[Servicio]:
 @app.route('/')
 @app.route('/inicio')
 def home():
-    # Crear 15 instancias de la clase Arte
-
-    # Crear 15 instancias de la clase Usuario con rol de ARTISTA
-    usuarios: list[Usuario] = []
-    for i in range(15):
-        usuario = Usuario(
-            correo=f"user{i}@ejemplo.com",
-            contrasena=f"contrasena{i}",
-            nombre=f"Usuario {i}",
-            roles=[Usuario.Rol.ARTISTA],  # Todos tienen rol de ARTISTA
-            id=i,
-            biografia=f"Biografía del usuario {i}",
-            foto_perfil='/fotos_perfil/generic.webp',
-            moneda=Dinero.TipoMoneda.MXN,
-            portafolio=[],  # Asignar la lista de arte generada anteriormente
-            comisiones=[],
-            servicios=generar_servicios(15),
-            contactos=[]
-        )
-        usuarios.append(usuario)
-    
-    for usuario in usuarios:
-        print(usuario._nombre)   
-        for servicio in usuario.servicios:
-            print(servicio._titulo)
-            print(servicio.obtener_ruta_primera_arte())
-            for concepto in servicio._conceptos:
-                print(f"Es extra: {concepto.es_extra}, Precio: {concepto.precio._cantidad} {concepto.precio._moneda.name}")
-                etiquetas = servicio.dame_etiquetas()
-                print(etiquetas)
-            
-    return render_template('index.html', usuarios=usuarios)
+    usuarios: list[Usuario] = fabrica.get_artistas()
+    etiquetas = fabrica.get_etiquetas()
+    servicios = fabrica.get_servicios()
+    random.shuffle(servicios)
+    return render_template('index.html', usuarios=usuarios, etiquetas=etiquetas, servicios=servicios)
 #Para poder mostrar esta debo de crear Usuarios,Arte,Comisiones,Servicios,Conceptos,Dinero
 
 
 @app.route('/login', methods=['POST'])
 def login():
-    session['id_cuenta'] = 1   #Simulacion de login
+    if request.form['correoField'] == 'valkalyh@gmail.com':
+        session['id_cuenta'] = 1
+    elif request.form['correoField'] == 'pepe@gmail.com':
+        session['id_cuenta'] = 4
     return redirect('/')
 
 @app.before_request

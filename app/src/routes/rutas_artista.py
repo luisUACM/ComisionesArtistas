@@ -42,13 +42,8 @@ def artista(id: int):
 def perfil():
     id = g.id_cuenta
     usuario = fabrica.get_usuario(id)
-    es_artista = False
-    es_cliente = False
-    for r in usuario.roles:
-        if r == Usuario.Rol.ARTISTA:
-            es_artista = True
-        elif r == Usuario.Rol.CLIENTE:
-            es_cliente = True
+    es_artista = usuario.es_artista()
+    es_cliente = usuario.es_cliente()
 
     return render_template(
         'perfil_artista.html', 
@@ -60,5 +55,5 @@ def perfil():
 
 @app.route('/chat/<int:id>')
 def chat(id: int):
-    ch = fabrica.ch
-    return render_template('chat.html', chat=ch)
+    chat = fabrica.chats[id - 1]
+    return render_template('chat.html', chat=chat)

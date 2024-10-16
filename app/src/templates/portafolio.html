@@ -2,9 +2,9 @@
     {% for fila in usuario.portafolio | batch(3) %}
         <div class="row">
             {% for i in fila %}
-            <div class="col gy-4">
-                <h3>{{ i.titulo }}</h3>
+            <div class="col gy-4 text-center">
                 <img src="{{ url_for('uploads', filename=i.ruta.0) }}" class="img-fluid">
+                <h4>{{ i.titulo }}</h4>
             </div>
             {% endfor %}
         </div>

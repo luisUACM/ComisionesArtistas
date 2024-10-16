@@ -6,33 +6,36 @@
             </div>
             <div class="col-md-4 d-flex justify-content-end">
                 <button class="btn btn-primary me-2">Buscar</button>
-                <button class="btn btn-secondary" data-bs-toggle="collapse" data-bs-target="#advancedSearch">Filtros</button>
+                <button class="btn btn-secondary me-2" data-bs-toggle="collapse" data-bs-target="#advancedSearch">Filtros</button>
+                <button class="btn btn-success">Mostrar disponibles</button>
             </div>
         </div>
         <div class="collapse" id="advancedSearch">
             <div class="row mt-3">
                 <div class="col-md-4">
                     <select class="form-select" aria-label="Servicios">
-                        <option value="">Servicios</option>
-                        <option value="ilustracion">Ilustración</option>
-                        <option value="diseno">Diseño</option>
-                        <option value="3d">3D</option>
+                        <option selected disabled class="option-hiden">Servicios</option>
+                        {% for servicio in servicios %}
+                            <option value="">{{ servicio.titulo }}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="col-md-4">
                     <select class="form-select" aria-label="Etiquetas">
-                        <option value="">Etiquetas</option>
-                        <option value="anime">Anime</option>
-                        <option value="realismo">Realismo</option>
-                        <option value="fantasia">Fantasía</option>
+                        <option selected disabled class="option-hiden">Etiquetas</option>
+                        {% for etiqueta in etiquetas %}
+                            <option value="">{{ etiqueta }}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="col-md-4">
                     <select class="form-select" aria-label="Artistas">
-                        <option value="">Artistas</option>
-                        <option value="artista1">Artista 1</option>
-                        <option value="artista2">Artista 2</option>
-                        <option value="artista3">Artista 3</option>
+                        <option selected disabled class="option-hiden">Artistas</option>
+                        {% for usuario in usuarios %}
+                            {% if usuario.es_artista() %}
+                                <option value="">{{ usuario.nombre }}</option>
+                            {% endif %}
+                        {% endfor %}
                     </select>
                 </div>
             </div>

@@ -1,6 +1,10 @@
 <!-- 'extends' hace a esta una plantilla hija, recuperara todo lo del padre -->
 {% extends "base.html" %}
 
+{% block css %}
+    <link rel="stylesheet" href="../static/css/index.css">
+{% endblock %}
+
 {% block content %}
 
     {% include 'busqueda_filtros.html' %}
