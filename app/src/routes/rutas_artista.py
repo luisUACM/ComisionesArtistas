@@ -3,16 +3,6 @@ from flask import render_template
 from flask import g
 from ..persistence.dao.usuario_dao import UsuarioDao
 from ..modelo.model import Usuario
-from ..modelo.model import Arte
-from ..modelo.model import Servicio
-from ..modelo.model import Dinero
-from ..modelo.model import Contacto
-from ..modelo.model import Concepto
-from ..modelo.model import Chat
-from ..modelo.model import Comision
-from ..modelo.model import Mensaje
-from ..modelo.model import Pago
-from datetime import date
 from ..modelo.fabrica_objetos import FabricaObjetos
 
 dao_usuario: UsuarioDao = UsuarioDao()

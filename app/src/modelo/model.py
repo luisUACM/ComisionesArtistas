@@ -70,7 +70,8 @@ class Usuario:
                 portafolio: list['Arte'] = [],
                 comisiones: list['Comision'] = [],
                 servicios: list['Servicio'] = [],
-                contactos: list['Contacto'] = []
+                contactos: list['Contacto'] = [],
+                saldo: float = 0.0,
                 ) -> None:
         
         self._correo: str = correo
@@ -85,6 +86,7 @@ class Usuario:
         self._comisiones: list[Comision] = comisiones
         self._servicios: list[Servicio] = servicios
         self._contactos: list[Contacto] = contactos
+        self._saldo: float = saldo
 
     @property
     def correo(self) -> str:
@@ -182,6 +184,14 @@ class Usuario:
     def contactos(self, contactos: list['Contacto']):
         self._contactos = contactos
     
+    @property
+    def saldo(self) -> float:
+        return self._saldo
+
+    @saldo.setter
+    def saldo(self, saldo: float) -> None:
+        self._saldo = saldo 
+    
     def esta_disponible(self) -> bool:
         disponible = True
         for c in self.comisiones:
@@ -213,18 +223,16 @@ class Servicio:
                 titulo: str, 
                 conceptos: list['Concepto'],  
                 piezas_arte: list['Arte'],
-                contrato: list[str],
+                contrato: list['Contrato'],
                 id: int = None,
                 artista: Usuario = None
-             
-
                 ) -> None:
-        self._titulo = titulo
-        self._conceptos = conceptos
-        self._piezas_arte = piezas_arte
-        self._contrato = contrato
-        self._id = id
-        self._artista = artista
+        self._titulo: str = titulo
+        self._conceptos: list[Concepto] = conceptos
+        self._piezas_arte: list[Arte] = piezas_arte
+        self._contrato: Contrato = contrato
+        self._id: int = id
+        self._artista: Usuario = artista
 
     def obtener_ruta_primera_arte(self) -> str:
         if self.piezas_arte:
@@ -277,11 +285,11 @@ class Servicio:
         self._piezas_arte = piezas_arte
 
     @property
-    def contrato(self) -> list[str]:
+    def contrato(self) -> list['Contrato']:
         return self._contrato
 
     @contrato.setter
-    def contrato(self, contrato: list[str]) -> None:
+    def contrato(self, contrato: list['Contrato']) -> None:
         self._contrato = contrato
 
     @property
@@ -301,6 +309,82 @@ class Servicio:
         self._artista = artista
 
 #Fin clase servicio_comision
+
+class Contrato:
+    def __init__(
+            self,
+            titulo: str,
+            contenido: str,
+            nombre_artista: str,
+            servicio: Servicio,
+            id: int = None,
+            nombre_cliente: str = None,
+            firma = None
+            ) -> None:
+        self._titulo: str = titulo
+        self._contenido: str = contenido
+        self._nombre_artista: str = nombre_artista
+        self._servicio: Servicio = servicio
+        self._id: int = id
+        self._nombre_cliente: str = nombre_cliente
+        self._firma = firma
+        
+    @property
+    def titulo(self) -> str:
+        return self._titulo
+
+    @titulo.setter
+    def titulo(self, titulo: str) -> None:
+        self._titulo = titulo
+        
+    @property
+    def contenido(self) -> str:
+        return self._contenido
+
+    @contenido.setter
+    def contenido(self, contenido: str) -> None:
+        self._contenido = contenido
+
+    @property
+    def nombre_artista(self) -> str:
+        return self._nombre_artista
+
+    @nombre_artista.setter
+    def nombre_artista(self, nombre_artista: str) -> None:
+        self._nombre_artista = nombre_artista
+
+    @property
+    def servicio(self) -> Servicio:
+        return self._servicio
+
+    @servicio.setter
+    def servicio(self, servicio: Servicio) -> None:
+        self._servicio = servicio
+    
+    @property
+    def id(self) -> int:
+        return self._id
+
+    @id.setter
+    def id(self, id: int) -> None:
+        self._id = id
+
+    @property
+    def nombre_cliente(self) -> str:
+        return self._nombre_cliente
+
+    @nombre_cliente.setter
+    def nombre_cliente(self, nombre_cliente: str) -> None:
+        self._nombre_cliente = nombre_cliente
+
+    @property
+    def firma(self):
+        return self._firma
+
+    @id.setter
+    def firma(self, firma) -> None:
+        self._firma = firma
+#Fin clase Contrato 
 
 #Inicio clase Pago
 class Pago:
@@ -386,13 +470,15 @@ class Mensaje:
                 mensaje: str, 
                 id: int = None, 
                 fecha_hora: datetime = datetime.now(), 
-                chat: 'Chat' = None    
+                chat: 'Chat' = None,
+                ruta_imagen: str = None
                 ) -> None:
         self._usuario: Usuario = usuario
         self._mensaje: Mensaje = mensaje
         self._id: int = id
         self._fecha_hora: datetime = fecha_hora
         self._chat: Chat = chat
+        self._ruta_imagen: str = ruta_imagen
 
     @property
     def usuario(self) -> 'Usuario':
@@ -434,7 +520,121 @@ class Mensaje:
     def chat(self, chat: 'Chat') -> None:
         self._chat = chat
 
+    @property
+    def ruta_imagen(self) -> str:
+        return self._ruta_imagen
+
+    @ruta_imagen.setter
+    def ruta_imagen(self, ruta_imagen: str) -> None:
+        self._ruta_imagen = ruta_imagen
+
 #Fin clase mensaje
+
+class MensajeEstado:
+
+    def __init__(
+                self, 
+                mensaje: str, 
+                id: int = None, 
+                fecha_hora: datetime = datetime.now(), 
+                chat: 'Chat' = None,
+                ) -> None:
+        self._mensaje: Mensaje = mensaje
+        self._id: int = id
+        self._fecha_hora: datetime = fecha_hora
+        self._chat: Chat = chat
+
+    @property
+    def mensaje(self) -> str:
+        return self._mensaje
+
+    @mensaje.setter
+    def mensaje(self, mensaje: str) -> None:
+        self._mensaje = mensaje
+
+    @property
+    def id(self) -> int:
+        return self._id
+
+    @id.setter
+    def id(self, id: int) -> None:
+        self._id = id
+
+    @property
+    def fecha_hora(self) -> datetime:
+        return self._fecha_hora
+
+    @fecha_hora.setter
+    def fecha_hora(self, fecha_hora: datetime) -> None:
+        self._fecha_hora = fecha_hora
+
+    @property
+    def chat(self) -> 'Chat':
+        return self._chat
+
+    @chat.setter
+    def chat(self, chat: 'Chat') -> None:
+        self._chat = chat
+
+class SolicitudComision:
+    
+    def __init__(
+            self, 
+            servicio: Servicio,
+            fecha_limite: date,
+            detalles: str,
+            id: int = None,
+            aprobada: bool = False
+        ) -> None:
+        self._servicio: Servicio = servicio
+        self._fecha_limite: date = fecha_limite
+        self._detalles: str = detalles
+        self._id: int = id
+        self._aprobada: bool = aprobada
+
+    @property
+    def servicio(self) -> Servicio:
+        return self._servicio
+
+    @servicio.setter
+    def id(self, servicio: Servicio) -> None:
+        self._servicio = servicio
+        
+    @property
+    def fecha_limite(self) -> date:
+        return self._fecha_limite
+    
+    @fecha_limite.setter
+    def id(self, fecha_limite: date) -> None:
+        self._fecha_limite = fecha_limite
+
+    @property
+    def detalles(self) -> str:
+        return self._detalles
+
+    @detalles.setter
+    def detalles(self, detalles: str) -> None:
+        self._detalles = detalles
+
+    @servicio.setter
+    def id(self, servicio: Servicio) -> None:
+        self._servicio = servicio
+    
+    @property
+    def id(self) -> int:
+        return self._id
+
+    @id.setter
+    def id(self, id: int) -> None:
+        self._id = id
+
+    @property
+    def aprobada(self) -> bool:
+        return self._aprobada
+
+    @aprobada.setter
+    def aprobada(self, aprobada: bool) -> None:
+        self._aprobada = aprobada
 
 #Inicio clase Comision
 class Comision:
@@ -450,7 +650,7 @@ class Comision:
     def __init__(
                 self, 
                 chat: 'Chat',
-                servicio: Servicio,
+                solicitud_comision: SolicitudComision,
                 cantidad: int,
                 conceptos: list['Concepto'],
                 fecha_entrega: date, 
@@ -462,7 +662,7 @@ class Comision:
                 pagos: list[Pago] = None   
                 ) -> None:
         self._chat: Chat = chat
-        self._servicio : Servicio = servicio
+        self._solicitud_comision : SolicitudComision = solicitud_comision
         self._cantidad: int = cantidad 
         self._conceptos: list[Concepto] = conceptos
         self._fecha_entrega: date = fecha_entrega
@@ -483,11 +683,19 @@ class Comision:
     
     @property
     def servicio(self) -> 'Servicio':
-        return self._servicio
+        return self._solicitud_comision.servicio
 
     @servicio.setter
-    def servicio(self, servicio: 'Chat') -> None:
-        self._servicio = servicio
+    def servicio(self, servicio: 'Servicio') -> None:
+        self._solicitud_comision.servicio = servicio
+    
+    @property
+    def solicitud_comision(self) -> SolicitudComision:
+        return self._solicitud_comision
+
+    @solicitud_comision.setter
+    def solicitud_comision(self, solicitud_comision: SolicitudComision) -> None:
+        self._solicitud_comision = solicitud_comision
     
     @property
     def cantidad(self) -> int:
@@ -594,7 +802,7 @@ class Chat:
                 artista: Usuario,  
                 cliente: Usuario,
                 id: int = None,
-                mensajes: list[Mensaje] = [],  
+                mensajes: list[Mensaje | MensajeEstado] = [], 
                 esta_deacuerdo: tuple[bool, bool] = (False, False),     #(artista, cliente)
                 solicitud_cambios: bool = False,
                 comision: Comision = None
@@ -662,6 +870,13 @@ class Chat:
     @comision.setter
     def comision(self, comision: Comision) -> None:
         self._comision = comision
+    
+    def get_lista_imagenes(self) -> list[str]:
+        lista = []
+        for m in self.mensajes:
+            if m.ruta_imagen != None:
+                lista.append(m)
+        return lista
         
 #Fin clase chat
 
