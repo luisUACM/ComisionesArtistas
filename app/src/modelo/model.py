@@ -532,24 +532,32 @@ class Mensaje:
 
 class MensajeEstado:
 
+    class EstadoPago(Enum):
+        
+        ACTUALIZACION_ACUERDO = 1
+        PAGO_REALIZADO = 2
+        CAMBIOS_SOLICITADOS = 3
+        CAMBIOS_APROBADOS = 4
+        FINALIZADO = 5
+
     def __init__(
                 self, 
-                mensaje: str, 
+                mensaje: EstadoPago, 
                 id: int = None, 
                 fecha_hora: datetime = datetime.now(), 
                 chat: 'Chat' = None,
                 ) -> None:
-        self._mensaje: Mensaje = mensaje
+        self._mensaje: self.EstadoPago = mensaje
         self._id: int = id
         self._fecha_hora: datetime = fecha_hora
         self._chat: Chat = chat
 
     @property
-    def mensaje(self) -> str:
+    def mensaje(self) -> EstadoPago:
         return self._mensaje
 
     @mensaje.setter
-    def mensaje(self, mensaje: str) -> None:
+    def mensaje(self, mensaje: EstadoPago) -> None:
         self._mensaje = mensaje
 
     @property
