@@ -1,0 +1,16 @@
+.contenedor-imagen {
+    position: relative;
+    height: 300px;
+}
+
+.imagen-tarjeta {
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    position: absolute;
+}
+
+.imagen-tarjeta:hover {
+    transform: scale(1.2);
+    z-index: 10;
+}

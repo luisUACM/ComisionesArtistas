@@ -1,6 +1,6 @@
 <div class="tab-pane fade" id="tab-servicios" role="tabpanel" aria-labelledby="tabServicios" tabindex="0">
     <div class="container-fluid">
-        {% for fila in usuario.servicios | batch(3) %}
+        {% for fila in usuario.servicios | batch(4) %}
                 <div class="row border border-light-subtle mt-2">
                     {% for s in fila %}
                         {% set servicio = s %}

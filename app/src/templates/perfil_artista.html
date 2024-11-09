@@ -2,6 +2,7 @@
 
 {% block css %}
     <link rel="stylesheet" href="../static/css/style_tarjeta_comision.css">
+    <link rel="stylesheet" href="../static/css/tarjeta_servicio.css">
 {% endblock %}
 
 {% block content %}
@@ -11,8 +12,7 @@
                 {% if g.id_cuenta == usuario.id %}
                     <div class="container text-center mb-4">
                         <span class="h3">Saldo: $</span>
-                        <span class="h3 text-success">00</span>
-                        <span class="h5 text-success">00</span>
+                        <span class="h3 text-success">{{ usuario.saldo }}</span>
                         <div class="row mt-2">
                             <div class="col">
                                 <button type="button" class="btn btn-success">Retirar</button>

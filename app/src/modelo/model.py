@@ -248,11 +248,12 @@ class Servicio:
         return "0.00"  # Si no hay concepto que cumpla la condición, devuelve "0.00"
 
     def dame_etiquetas(self) -> list[str]:
-        # Verificar si hay al menos una pieza de arte en la lista
-        if self._piezas_arte:
-            # Obtener las etiquetas del primer elemento de la lista de piezas de arte
-            return self._piezas_arte[0].etiquetas  # Asumiendo que cada objeto 'Arte' tiene un atributo 'etiquetas'
-        return []  # Retornar lista vacía si no hay piezas de arte
+        lista = []
+        for p in self.piezas_arte:
+            for e in p.etiquetas:
+                if e not in lista:
+                    lista.append(e)
+        return lista
     
     def dame_descripcion(self) -> str:
         for concepto in self._conceptos:
