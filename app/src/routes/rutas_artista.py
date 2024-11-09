@@ -25,7 +25,8 @@ def artista(id: int):
         title=usuario.nombre, 
         usuario=usuario,
         es_artista = es_artista,
-        es_cliente = es_cliente
+        es_cliente = es_cliente,
+        titulo='Perfil de '+usuario.nombre
         )
 
 @app.route('/mi_perfil')
@@ -40,7 +41,8 @@ def perfil():
         title=usuario.nombre, 
         usuario=usuario,
         es_artista = es_artista,
-        es_cliente = es_cliente
+        es_cliente = es_cliente,
+        titulo='Mi perfil'
         )
 
 @app.route('/chat/<int:id>')

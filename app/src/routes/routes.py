@@ -110,7 +110,7 @@ def home():
     etiquetas = fabrica.get_etiquetas()
     servicios = fabrica.get_servicios()
     random.shuffle(servicios)
-    return render_template('index.html', usuarios=usuarios, etiquetas=etiquetas, servicios=servicios)
+    return render_template('index.html', usuarios=usuarios, etiquetas=etiquetas, servicios=servicios, titulo='Exhibición de Arte & Servicios')
 #Para poder mostrar esta debo de crear Usuarios,Arte,Comisiones,Servicios,Conceptos,Dinero
 
 

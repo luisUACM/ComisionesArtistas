@@ -1,15 +1,11 @@
 <!-- Sección de Exhibidor de Arte -->
 <section class="container-fluid">
-    <h2 class="text-center mb-4">Exhibición de Arte & Servicios</h2>
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="mb-0"></h4>
-    </div>
     <div class="row">
         {% for servicio in servicios %}
             {% set usuario = servicio.artista %}
             {% if usuario.es_artista() %} <!--Falta ver si si hace bien el filtro-->
             <!-- Tarjeta de Servicio -->
-            <div class="col-md-4 mb-4">
+            <div class="col-md-3 mb-4">
                 {% include 'tarjeta_servicio.html'  %}
             </div>
             {% endif %}
