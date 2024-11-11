@@ -2,6 +2,7 @@
 
 {% block css %}
     <link rel="stylesheet" href="../static/css/chat.css">
+    <link rel="stylesheet" href="../static/css/mensaje.css">
 {% endblock %}
 
 {% block content %}
@@ -20,38 +21,8 @@
     <div class="container-fluid p-0 alto-pantalla">
         <div class="border border-secondary-subtle rounded overflow-auto overflow-x-hidden pt-4 pb-4 mb-3 ms-5 me-5 caja-chat" id="chat-div">
             {% for mensaje in chat.mensajes %}
-                <div class="row mt-3 mb-3 ms-0 me-0">
-                    {% include 'mensaje.html' %}
-                </div>
+                {% include 'mensaje.html' %}
             {% endfor %}
-            {% if chat.solicitud_cambios == True %}
-                {% if g.id_cuenta == chat.artista.id %}
-                    <div class="row mt-3 mb-3 ms-5 me-5 text-center">
-                        <hr>
-                        <div class="col text-info h4">{{ chat.cliente.nombre }} solicitó nuevos cambios</div>
-                    </div>
-                {% elif g.id_cuenta == chat.cliente.id %}
-                    <div class="row mt-3 mb-3 ms-5 me-5 text-center">
-                        <hr>
-                        <div class="col text-info h4">Solcitaste nuevos cambios, esperando la respuesta de {{ chat.artista.nombre }}</div>
-                    </div>
-                {% endif %}
-            {% endif %}
-            {% if chat.esta_deacuerdo.0 and chat.esta_deacuerdo.1 %}
-                {% if chat.comision.esta_pagada() and chat.comision.estado.value == 3 and not chat.solicitud_cambios %}
-                    {% if g.id_cuenta == chat.artista.id %}    
-                        <div class="row mt-3 mb-3 ms-5 me-5 text-center">
-                            <hr>
-                            <div class="col text-info h4">{{ chat.cliente.nombre }} realizó el pago</div>
-                        </div>
-                    {% elif g.id_cuenta == chat.cliente.id %}
-                        <div class="row mt-3 mb-3 ms-5 me-5 text-center">
-                            <hr>
-                            <div class="col text-info h4">Haz completado el pago correctamente</div>
-                        </div>
-                    {% endif %}
-                {% endif %}
-            {% endif %}
         </div>
         
         <!-- EstadosComision.ARCHIVADA -->

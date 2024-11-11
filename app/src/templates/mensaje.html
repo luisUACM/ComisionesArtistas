@@ -1,23 +1,61 @@
-{% if mensaje.usuario.id == g.id_cuenta %}
-    <div class="offset-md-4 col-1 pe-0 align-content-end flex-wrap text-end">
-        <div class="fw-light text-body-secondary" style="font-size: 13px;">{{ mensaje.fecha_hora.strftime("%d/%m/%Y") }}</div> 
-        <div class="fw-light text-body-secondary" style="font-size: 13px;">{{ mensaje.fecha_hora.strftime("%I:%M:%S %p") }}</div>
-    </div>
-    <div class="col-6">
-        <div class="border border-secondary rounded p-2">{{ mensaje.mensaje }}</div>
-    </div>
-    <div class="col-1">
-        <img src="{{ url_for('uploads', filename=mensaje.usuario.foto_perfil) }}" class="rounded-circle" height="60px" width="60px">
-    </div>
-{% else %}
-    <div class="col-1 text-end">
-        <img src="{{ url_for('uploads', filename=mensaje.usuario.foto_perfil) }}" class="rounded-circle" height="60px" width="60px">
-    </div>
-    <div class="col-6">
-        <div class="border border-secondary rounded p-2 ">{{ mensaje.mensaje }}</div>
-    </div>
-    <div class="col-1 ps-0 align-content-end flex-wrap">
-        <div class="fw-light text-body-secondary" style="font-size: 13px;">{{ mensaje.fecha_hora.strftime("%d/%m/%Y") }}</div> 
-        <div class="fw-light text-body-secondary" style="font-size: 13px;">{{ mensaje.fecha_hora.strftime("%I:%M:%S %p") }}</div>
+{% if mensaje.__class__.__name__ == 'Mensaje' %}     
+    <div class="row mt-3 mb-3 ms-0 me-0">    
+        {% if mensaje.usuario.id == g.id_cuenta %}
+            <div class="offset-md-4 col-1 pe-0 align-content-end flex-wrap text-end">
+                <div class="fw-light text-body-secondary" style="font-size: 13px;">{{ mensaje.fecha_hora.strftime("%d/%m/%Y") }}</div> 
+                <div class="fw-light text-body-secondary" style="font-size: 13px;">{{ mensaje.fecha_hora.strftime("%I:%M:%S %p") }}</div>
+            </div>
+            <div class="col-6">
+                <div class="border border-secondary rounded p-2">{{ mensaje.mensaje }}</div>
+            </div>
+            <div class="col-1">
+                <img src="{{ url_for('uploads', filename=mensaje.usuario.foto_perfil) }}" class="rounded-circle" height="60px" width="60px">
+            </div>
+        {% else %}
+            <div class="col-1 text-end">
+                <img src="{{ url_for('uploads', filename=mensaje.usuario.foto_perfil) }}" class="rounded-circle" height="60px" width="60px">
+            </div>
+            <div class="col-6">
+                <div class="border border-secondary rounded p-2 ">{{ mensaje.mensaje }}</div>
+            </div>
+            <div class="col-1 ps-0 align-content-end flex-wrap">
+                <div class="fw-light text-body-secondary" style="font-size: 13px;">{{ mensaje.fecha_hora.strftime("%d/%m/%Y") }}</div> 
+                <div class="fw-light text-body-secondary" style="font-size: 13px;">{{ mensaje.fecha_hora.strftime("%I:%M:%S %p") }}</div>
+            </div>
+        {% endif %}
+    </div>   
+{% elif mensaje.__class__.__name__ ==  'MensajeEstado' %}
+    <div class="pt-1 pb-1">
+        <div class=" ms-5 me-5 text-center line-with-text">
+            {% if g.id_cuenta == chat.artista.id %}
+                {% if mensaje.mensaje.value == 1 %}
+                    <span class="col text-info h5">Actualizaste los términos de la comisión</span>
+                {% elif mensaje.mensaje.value == 2 %}
+                    <span class="col text-info h5">{{ chat.cliente.nombre }} realizó el pago</span>
+                {% elif mensaje.mensaje.value == 3 %}
+                    <span class="col text-info h5">Entregaste un avance</span>
+                {% elif mensaje.mensaje.value == 4 %}
+                    <span class="col text-info h5">{{ chat.cliente.nombre }} solicitó nuevos cambios</span>
+                {% elif mensaje.mensaje.value == 5 %}
+                    <span class="col text-info h5">Aprobaste los cambios</span>
+                {% elif mensaje.mensaje.value == 6 %}
+                    <span class="col text-info h5">Entregaste la el arte finalizado</span>
+                {% endif %}
+            {% else %}
+            {% if mensaje.mensaje.value == 1 %}
+                    <span class="col text-info h5">{{ chat.artista.nombre }} actualizó los términos de la comisión</span>
+                {% elif mensaje.mensaje.value == 2 %}
+                    <span class="col text-info h5">Realizaste el pago</span>
+                {% elif mensaje.mensaje.value == 3 %}
+                    <span class="col text-info h5">{{ chat.artista.nombre }} entregó un avance</span>
+                {% elif mensaje.mensaje.value == 4 %}
+                    <span class="col text-info h5">Solcitaste nuevos cambios</span>
+                {% elif mensaje.mensaje.value == 5 %}
+                    <span class="col text-info h5">Se aprobaron los cambios</span>
+                {% elif mensaje.mensaje.value == 6 %}
+                    <span class="col text-info h5">{{ chat.artista.nombre }} entregó el arte finalizado</span>
+                {% endif %}
+            {% endif %}
+        </div>
     </div>
 {% endif %}

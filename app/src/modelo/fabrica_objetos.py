@@ -1,43 +1,5 @@
 from ..modelo.model import *
 
-"""
-misaki = Usuario('test@gmail', '123', 'Misaki', [Usuario.Rol.ARTISTA], 1, 
-                    biografia='🇲🇽| Noob | Lic. en Diseño Gráfico 🖋| Clip Studio Paint | No le hago nariz a los Chibis | 3/3 | ☕️',
-                    contactos=[(Contacto.TipoContacto.OTRA, 'https://vgen.co/misakibyakko'), 
-                                    (Contacto.TipoContacto.TWITTER, 'https://x.com/MisakiByakko')],
-                    foto_perfil='fotos_perfil/1.jpg' )
-pepe = Usuario('test2@gmail', '123', 'Pepe', [Usuario.Rol.CLIENTE], 2, 
-                    biografia='',
-                    contactos=[])
-p: list[Arte] = [
-                        Arte(misaki, 'arte_portafolio/1.png', '1', 'png'),
-                        Arte(misaki, 'arte_portafolio/2.png', '2', 'png'),
-                        Arte(misaki, 'arte_portafolio/3.png', '3', 'png'),
-                        Arte(misaki, 'arte_portafolio/4.png', '4', 'png')
-                        ]
-co = Concepto('Lorem ipsum dolor sit amet consectetur adipiscing elit class aliquet porta, nostra aliquam nisl fringilla', Dinero(100), False)
-co2 = Concepto('Lorem ipsum dolor sit amet consectetur adipiscing elit class aliquet porta, nostra aliquam nisl fringilla', Dinero(150), True)
-s = Servicio('Chibis originales', 
-                        ('Dibujo de personaje original en estilo chibi animado. A cuerpo completo y color', Dinero(100), True), 
-                        [Arte(misaki, 'arte_portafolio/1.png', '1', 'png'), Arte(misaki, 'arte_portafolio/2.png', '2', 'png')], 
-                        'Contrato.txt')
-ch = Chat(misaki, pepe, esta_deacuerdo=(True, True), solicitud_cambios=False)
-com = Comision(ch, s, 1, [co, co], date.today, estado=Comision.EstadosComision.SOLICITADA)
-
-m1 = Mensaje(pepe, 'Lorem ipsum dolor sit amet consectetur adipiscing elit ultricies hendrerit ante, parturient netus torquent erat egestas vel iaculis porta pharetra convallis, morbi eu metus mi pretium sociis facilisi suspendisse justo. Nibh primis nisi blandit felis pretium leo, proin libero ultrices parturient sapien massa class, et tempor eget diam vestibulum. Imperdiet tempus condimentum dui sodales ultrices proin inceptos, habitant pellentesque justo quis vulputate penatibus turpis sagittis, curabitur vitae quam morbi maecenas vehicula.')
-m2 = Mensaje(misaki, 'Lorem ipsum dolor sit amet consectetur adipiscing elit ultricies hendrerit ante, parturient netus torquent erat egestas vel iaculis porta pharetra convallis, morbi eu metus mi pretium sociis facilisi suspendisse justo. Nibh primis nisi blandit felis pretium leo, proin libero ultrices parturient sapien massa class, et tempor eget diam vestibulum. Imperdiet tempus condimentum dui sodales ultrices proin inceptos, habitant pellentesque justo quis vulputate penatibus turpis sagittis, curabitur vitae quam morbi maecenas vehicula.')
-pa1 = Pago(com, pepe, Dinero(100), Pago.EstadoPago.PAGADO)
-
-s.conceptos = [co, co2]
-misaki.portafolio = p
-misaki.servicios = [s, s, s]
-ch.comision = com
-ch.mensajes = [m1, m2, m1, m1, m2]
-com.pagos = [pa1]
-com.conceptos = [co]
-com.pagos = [pa1]
-"""
-
 class FabricaObjetos:
     CONTRATO_GENERICO = """
 <div class="text-center h2"><strong>Contrato de prestación de servicios</strong></div><br><br>
@@ -175,14 +137,17 @@ El Artista acuerda prestar sus servicios de creación de arte digital al Cliente
     m4 = Mensaje(valkalyh, 'Muchas gracias por su preferencia!')
     me2 = MensajeEstado(MensajeEstado.EstadoPago.PAGO_REALIZADO)
     m5 = Mensaje(valkalyh, 'He aquí un boceto general de como se vería. Si me da su visto bueno procederé a terminar el dibujo')
+    me3 = MensajeEstado(MensajeEstado.EstadoPago.AVANCE_ENTREGADO)
     m6 = Mensaje(pepe, 'Solo la cabeza? Quiero que se vea de cuerpo completo')
+    me4 = MensajeEstado(MensajeEstado.EstadoPago.CAMBIOS_SOLICITADOS)
     m7 = Mensaje(valkalyh, 'Tendría un costo adicional de $400')
+    me5 = MensajeEstado(MensajeEstado.EstadoPago.ACTUALIZACION_ACUERDO)
     m8 = Mensaje(pepe, 'Mejor solo de medio cuerpo')
-    me3 = MensajeEstado(MensajeEstado.EstadoPago.CAMBIOS_SOLICITADOS)
-    me4 = MensajeEstado(MensajeEstado.EstadoPago.CAMBIOS_APROBADOS)
-    me5 = MensajeEstado(MensajeEstado.EstadoPago.PAGO_REALIZADO)
+    me6 = MensajeEstado(MensajeEstado.EstadoPago.ACTUALIZACION_ACUERDO)
+    me7 = MensajeEstado(MensajeEstado.EstadoPago.CAMBIOS_APROBADOS)
+    me8 = MensajeEstado(MensajeEstado.EstadoPago.PAGO_REALIZADO)
     m9 = Mensaje(valkalyh, 'Su dibujo está terminado en seguida lo subo')
-    me6 = MensajeEstado(MensajeEstado.EstadoPago.FINALIZADO)
+    me9 = MensajeEstado(MensajeEstado.EstadoPago.FINALIZADO)
     m10 = Mensaje(valkalyh, 'Un placer hacer negocios :)')
     pago_1 = Pago(com_pagado, pepe, com_pagado.conceptos[0].precio, Pago.EstadoPago.PAGADO)
     pago_2 = Pago(com_completo, pepe, com_completo.conceptos[1].precio, Pago.EstadoPago.PAGADO)
@@ -201,7 +166,7 @@ El Artista acuerda prestar sus servicios de creación de arte digital al Cliente
     chat_extra.mensajes = [m1, m2, m3, m4, m5, m6, m7, m8]
     chat_pagado2.mensajes = [m1, m2, m3, m4, m5, m6, m7, m8]
     chat_completo.mensajes = [m1, m2, m3, m4, m5, m6, m7, m8, m9]
-    chat_archivado.mensajes = [m1, m2, me1, m3, m4, me2, m5, m6, m7, m8, me3, me4, me5, m9, me6, m10]
+    chat_archivado.mensajes = [m1, m2, me1, m3, m4, me2, m5, me3, m6 ,me4, m7 ,me5, m8 ,me6, me7, me8, m9, me9, m10]
     com_pagado.pagos = [pago_1]
     com_extra.pagos = [pago_1]
     com_pagado2.pagos = [pago_1, pago_2]

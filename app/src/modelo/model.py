@@ -537,9 +537,10 @@ class MensajeEstado:
         
         ACTUALIZACION_ACUERDO = 1
         PAGO_REALIZADO = 2
-        CAMBIOS_SOLICITADOS = 3
-        CAMBIOS_APROBADOS = 4
-        FINALIZADO = 5
+        AVANCE_ENTREGADO = 3
+        CAMBIOS_SOLICITADOS = 4
+        CAMBIOS_APROBADOS = 5
+        FINALIZADO = 6
 
     def __init__(
                 self, 
