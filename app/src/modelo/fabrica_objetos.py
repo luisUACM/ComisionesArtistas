@@ -33,9 +33,9 @@ El Artista acuerda prestar sus servicios de creación de arte digital al Cliente
             contactos=[(Contacto.TipoContacto.INSTAGRAM, 'https://www.instagram.com/WICHIGOD/'), 
                     (Contacto.TipoContacto.KOFI, 'https://ko-fi.com/WICHIGOD')],
             foto_perfil='fotos_perfil/3.jpg')
-    pepe = Usuario('pepe@gmail', '123', 'Pepe', [Usuario.Rol.CLIENTE], 4)
+    edwar = Usuario('edwar.garcia@estudiante.uacm.edu.mx', '123', 'Edwar', [Usuario.Rol.CLIENTE], 4)
     luis = Usuario('luis@gmail', '123', 'Luis', [Usuario.Rol.CLIENTE], 5)
-    edwar = Usuario('edwar@gmail', '123', 'Edwar', [Usuario.Rol.CLIENTE], 6)
+    pepe = Usuario('pepe@gmail', '123', 'Pepe', [Usuario.Rol.CLIENTE], 6)
 
     retrato1 = Arte(valkalyh,'arte_portafolio/1.jpg','Cry_Black_Angel',1,['Medio cuerpo', 'Retrato'],'Fanart Cry Black Angel')
     retrato2 = Arte(valkalyh,'arte_portafolio/2.jpg','Cry_Fanart',2,['Busto', 'Retrato'],'Cry Fanart')
@@ -99,58 +99,64 @@ El Artista acuerda prestar sus servicios de creación de arte digital al Cliente
     akali.portafolio = juegos + overlays + pixels
     wichigod.portafolio = fotos
 
-    s_retrato = Servicio('Retrato de personaje',conceptos_retrato, retratos, [CONTRATO_GENERICO], 1, valkalyh)
-    s_oc = Servicio('Diseño de OC', conceptos_oc, ocs, [CONTRATO_GENERICO], 2, valkalyh)
-    s_logo = Servicio('Diseño de logotipo', conceptos_logo, logos, [CONTRATO_GENERICO], 3, valkalyh)
-    s_juego = Servicio('Ilustración de personaje de videojuego', conceptos_juego, juegos, [CONTRATO_GENERICO], 4, akali)
-    s_overlay = Servicio('Overlay para streamer', conceptos_overlay, overlays, [CONTRATO_GENERICO], 5, akali)
-    s_pixel = Servicio('Pixelart de personaje de videojuego', conceptos_pixel, pixels, [CONTRATO_GENERICO], 6, akali)
-    s_foto = Servicio('Fotografía de paisaje 4K', conceptos_foto, fotos, [CONTRATO_GENERICO], 7, wichigod)
+    contrato_personal = Contrato('', '', 'valkalyh', id=1)
+    contrato_comercial = Contrato('', '', 'valkalyh', id=2)
+    contrato_personal_firmado = Contrato('', '', 'valkalyh', id=3, nombre_cliente='pepe')
+    contrato_comercial_firmado = Contrato('', '', 'valkalyh', id=4, nombre_cliente='pepe')
+    contratos = [contrato_personal, contrato_comercial]
+
+    s_retrato = Servicio('Retrato de personaje',conceptos_retrato, retratos, contratos, 1, valkalyh)
+    s_oc = Servicio('Diseño de OC', conceptos_oc, ocs, contratos, 2, valkalyh)
+    s_logo = Servicio('Diseño de logotipo', conceptos_logo, logos, contratos, 3, valkalyh)
+    s_juego = Servicio('Ilustración de personaje de videojuego', conceptos_juego, juegos, contratos, 4, akali)
+    s_overlay = Servicio('Overlay para streamer', conceptos_overlay, overlays, contratos, 5, akali)
+    s_pixel = Servicio('Pixelart de personaje de videojuego', conceptos_pixel, pixels, contratos, 6, akali)
+    s_foto = Servicio('Fotografía de paisaje 4K', conceptos_foto, fotos, contratos, 7, wichigod)
 
     sol_retrato = SolicitudComision(s_retrato, date.today, '', 1, True)
 
     valkalyh.servicios = [s_retrato, s_oc, s_logo]
     akali.servicios = [s_juego, s_overlay, s_pixel]
     wichigod.servicios = [s_foto]
-    usuarios: list[Usuario] = [valkalyh, akali, wichigod, pepe, luis, edwar]
+    usuarios: list[Usuario] = [valkalyh, akali, wichigod, edwar, luis, pepe]
     
-    chat_inicial = Chat(valkalyh, pepe, 1, esta_deacuerdo=(False, True))
-    chat_aprobado = Chat(valkalyh, pepe, 2, esta_deacuerdo=(True, True))
-    chat_pagado = Chat(valkalyh, pepe, 3, esta_deacuerdo=(True, True))
-    chat_extra = Chat(valkalyh, pepe, 4, esta_deacuerdo=(True, True), solicitud_cambios=True)
-    chat_pagado2 = Chat(valkalyh, pepe, 5, esta_deacuerdo=(True, True))
-    chat_completo = Chat(valkalyh, pepe, 6, esta_deacuerdo=(True, True))
-    chat_archivado = Chat(valkalyh, pepe, 7, esta_deacuerdo=(True, True))
+    chat_inicial = Chat(valkalyh, edwar, 1, esta_deacuerdo=(False, True))
+    chat_aprobado = Chat(valkalyh, edwar, 2, esta_deacuerdo=(True, True))
+    chat_pagado = Chat(valkalyh, edwar, 3, esta_deacuerdo=(True, True))
+    chat_extra = Chat(valkalyh, edwar, 4, esta_deacuerdo=(True, True), solicitud_cambios=True)
+    chat_pagado2 = Chat(valkalyh, edwar, 5, esta_deacuerdo=(True, True))
+    chat_completo = Chat(valkalyh, edwar, 6, esta_deacuerdo=(True, True))
+    chat_archivado = Chat(valkalyh, edwar, 7, esta_deacuerdo=(True, True))
 
-    com_inicial = Comision(chat_inicial, sol_retrato, 1,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.SOLICITADA)
-    com_aprobado = Comision(chat_aprobado, sol_retrato, 2,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.POR_PAGAR)
-    com_pagado = Comision(chat_pagado, sol_retrato, 3,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.EN_PROCESO)
-    com_extra = Comision(chat_extra, sol_retrato, 4,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.EN_PROCESO)
-    com_pagado2 = Comision(chat_pagado2, sol_retrato, 3,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.EN_PROCESO)
-    com_completo = Comision(chat_completo, sol_retrato, 5,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.TERMINADA)
-    com_archivado = Comision(chat_archivado, sol_retrato, 6,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.ARCHIVADA)
+    com_inicial = Comision(chat_inicial, sol_retrato, 1,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.SOLICITADA, id=1)
+    com_aprobado = Comision(chat_aprobado, sol_retrato, 2,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.POR_PAGAR, id=2)
+    com_pagado = Comision(chat_pagado, sol_retrato, 3,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.EN_PROCESO, id=3)
+    com_extra = Comision(chat_extra, sol_retrato, 4,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.EN_PROCESO, id=4)
+    com_pagado2 = Comision(chat_pagado2, sol_retrato, 3,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.EN_PROCESO, id=5)
+    com_completo = Comision(chat_completo, sol_retrato, 5,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.TERMINADA, id=6)
+    com_archivado = Comision(chat_archivado, sol_retrato, 6,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.ARCHIVADA, id=7)
 
-    m1 = Mensaje(pepe, 'Hola buenas tardes, me gustaria que me dibujaran un retrato de mi prometida')
+    m1 = Mensaje(edwar, 'Hola buenas tardes, me gustaria que me dibujaran un retrato de mi prometida')
     m2 = Mensaje(valkalyh, 'Hola!, si claro, requeriré una imagen de ella como referencia. El costo sería de $450 y la imagen se la entregaría en 1 semana a partir del pago')
     me1 = MensajeEstado(MensajeEstado.EstadoPago.ACTUALIZACION_ACUERDO)
-    m3 = Mensaje(pepe, 'Esta bien, en seguida pago')
+    m3 = Mensaje(edwar, 'Esta bien, en seguida pago')
     m4 = Mensaje(valkalyh, 'Muchas gracias por su preferencia!')
     me2 = MensajeEstado(MensajeEstado.EstadoPago.PAGO_REALIZADO)
     m5 = Mensaje(valkalyh, 'He aquí un boceto general de como se vería. Si me da su visto bueno procederé a terminar el dibujo')
     me3 = MensajeEstado(MensajeEstado.EstadoPago.AVANCE_ENTREGADO)
-    m6 = Mensaje(pepe, 'Solo la cabeza? Quiero que se vea de cuerpo completo')
+    m6 = Mensaje(edwar, 'Solo la cabeza? Quiero que se vea de cuerpo completo')
     me4 = MensajeEstado(MensajeEstado.EstadoPago.CAMBIOS_SOLICITADOS)
     m7 = Mensaje(valkalyh, 'Tendría un costo adicional de $400')
     me5 = MensajeEstado(MensajeEstado.EstadoPago.ACTUALIZACION_ACUERDO)
-    m8 = Mensaje(pepe, 'Mejor solo de medio cuerpo')
+    m8 = Mensaje(edwar, 'Mejor solo de medio cuerpo')
     me6 = MensajeEstado(MensajeEstado.EstadoPago.ACTUALIZACION_ACUERDO)
     me7 = MensajeEstado(MensajeEstado.EstadoPago.CAMBIOS_APROBADOS)
     me8 = MensajeEstado(MensajeEstado.EstadoPago.PAGO_REALIZADO)
     m9 = Mensaje(valkalyh, 'Su dibujo está terminado en seguida lo subo')
     me9 = MensajeEstado(MensajeEstado.EstadoPago.FINALIZADO)
     m10 = Mensaje(valkalyh, 'Un placer hacer negocios :)')
-    pago_1 = Pago(com_pagado, pepe, com_pagado.conceptos[0].precio, Pago.EstadoPago.PAGADO)
-    pago_2 = Pago(com_completo, pepe, com_completo.conceptos[1].precio, Pago.EstadoPago.PAGADO)
+    pago_1 = Pago(com_pagado, edwar, com_pagado.conceptos[0].precio, Pago.EstadoPago.PAGADO)
+    pago_2 = Pago(com_completo, edwar, com_completo.conceptos[1].precio, Pago.EstadoPago.PAGADO)
     
     chat_inicial.comision = com_inicial
     chat_aprobado.comision = com_aprobado
@@ -160,12 +166,20 @@ El Artista acuerda prestar sus servicios de creación de arte digital al Cliente
     chat_completo.comision = com_completo
     chat_archivado.comision = com_archivado
 
+    com_inicial.chat = chat_inicial
+    com_aprobado.chat = chat_aprobado
+    com_pagado.chat = chat_pagado
+    com_extra.chat = chat_extra
+    com_pagado2.chat = chat_pagado2
+    com_completo.chat = chat_completo
+    com_archivado.chat = chat_archivado
+
     chat_inicial.mensajes = [m1, m2]
-    chat_aprobado.mensajes = [m1, m2, m3, m4]
-    chat_pagado.mensajes = [m1, m2, m3, m4, m5]
-    chat_extra.mensajes = [m1, m2, m3, m4, m5, m6, m7, m8]
-    chat_pagado2.mensajes = [m1, m2, m3, m4, m5, m6, m7, m8]
-    chat_completo.mensajes = [m1, m2, m3, m4, m5, m6, m7, m8, m9]
+    chat_aprobado.mensajes = [m1, m2, me1, m3, m4]
+    chat_pagado.mensajes = [m1, m2, me1, m3, m4, me2, m5]
+    chat_extra.mensajes = [m1, m2, me1, m3, m4, me2, m5, me3, m6 ,me4, m7 ,me5, m8]
+    chat_pagado2.mensajes = [m1, m2, me1, m3, m4, me2, m5, me3, m6 ,me4, m7 ,me5, m8]
+    chat_completo.mensajes = [m1, m2, me1, m3, m4, me2, m5, me3, m6 ,me4, m7 ,me5, m8 ,me6, me7, me8, m9]
     chat_archivado.mensajes = [m1, m2, me1, m3, m4, me2, m5, me3, m6 ,me4, m7 ,me5, m8 ,me6, me7, me8, m9, me9, m10]
     com_pagado.pagos = [pago_1]
     com_extra.pagos = [pago_1]
@@ -176,7 +190,8 @@ El Artista acuerda prestar sus servicios de creación de arte digital al Cliente
     chats = [chat_inicial, chat_aprobado, chat_pagado, chat_extra, chat_pagado2, chat_completo, chat_archivado]
     comisiones = [com_inicial, com_aprobado, com_pagado, com_extra, com_pagado2, com_completo, com_archivado]
     valkalyh.comisiones = comisiones
-    pepe.comisiones = comisiones
+    edwar.comisiones = comisiones
+    edwar.comisiones = comisiones
 
     def get_usuario(self, id: int) -> Usuario:
         return self.usuarios[id - 1]
@@ -202,3 +217,16 @@ El Artista acuerda prestar sus servicios de creación de arte digital al Cliente
                     if s not in lista:
                         lista.append(s)
         return lista
+
+    def get_servicio(self, id: int) -> Servicio:
+        servicios = self.get_servicios()
+        for s in servicios:
+            if s.id == id:
+                return s
+        return None
+
+    def get_comision(self, id: int):
+        for c in self.comisiones:
+            if c.id == id:
+                return c
+        return None

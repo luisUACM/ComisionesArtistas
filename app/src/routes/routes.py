@@ -6,6 +6,7 @@ from flask import g
 from flask import request
 from flask import send_from_directory
 import random
+import requests
 
 from ..modelo.model import Usuario
 from ..modelo.model import Arte
@@ -95,7 +96,7 @@ def generar_servicios(cantidad=15) -> list[Servicio]:
             titulo=titulo,
             conceptos=conceptos,
             piezas_arte=piezas_arte,
-            contrato=contrato,
+            contratos=contrato,
             id=i
         )
         servicios.append(servicio)
@@ -116,10 +117,11 @@ def home():
 
 @app.route('/login', methods=['POST'])
 def login():
-    if request.form['correoField'] == 'valkalyh@gmail.com':
-        session['id_cuenta'] = 1
-    elif request.form['correoField'] == 'pepe@gmail.com':
-        session['id_cuenta'] = 4
+    if request.form['passwordField'] == '123':
+        if request.form['correoField'] == 'valkalyh@gmail.com':
+            session['id_cuenta'] = 1
+        elif request.form['correoField'] == 'edwar.garcia@estudiante.uacm.edu.mx':
+            session['id_cuenta'] = 4
     return redirect('/')
 
 @app.before_request

@@ -327,7 +327,7 @@ class Contrato:
             titulo: str,
             contenido: str,
             nombre_artista: str,
-            servicio: Servicio,
+            servicio: Servicio = None,
             id: int = None,
             nombre_cliente: str = None,
             firma = None
@@ -564,8 +564,8 @@ class MensajeEstado:
         self._mensaje: self.EstadoPago = mensaje
         self._id: int = id
         self._fecha_hora: datetime = fecha_hora
-        self.cambio_conceptos = cambio_conceptos
-        self.cambio_fecha = cambio_fecha
+        self._cambio_conceptos = cambio_conceptos
+        self._cambio_fecha = cambio_fecha
         self._chat: Chat = chat
 
     @property
@@ -709,7 +709,8 @@ class Comision:
                 avances: list[str] = [],
                 productos_finales: list[str] = [],
                 estado: EstadosComision = EstadosComision.SOLICITADA,
-                pagos: list[Pago] = None   
+                pagos: list[Pago] = None,
+                contrato: Contrato = None
                 ) -> None:
         self._chat: Chat = chat
         self._solicitud_comision : SolicitudComision = solicitud_comision
@@ -720,7 +721,8 @@ class Comision:
         self._avances: list[str] = avances
         self._productos_finales: list[str] = productos_finales
         self._estado = estado
-        self._pagos = pagos 
+        self._pagos = pagos
+        self._contrato = contrato
 
     @property
     def chat(self) -> 'Chat':
@@ -809,6 +811,14 @@ class Comision:
     @pagos.setter
     def pagos(self, pagos: list[Pago]):
         self._pagos = pagos
+
+    @property
+    def contrato(self) -> Contrato:
+        return self._contrato
+
+    @contrato.setter
+    def contrato(self, contrato: Contrato):
+        self._contrato = contrato
 
     def dame_pago_total(self) -> float:
         total = 0

@@ -2,8 +2,9 @@ from flask import current_app as app
 from flask import render_template
 from flask import g
 from ..persistence.dao.usuario_dao import UsuarioDao
-from ..modelo.model import Usuario
+from ..modelo.model import Usuario, Servicio
 from ..modelo.fabrica_objetos import FabricaObjetos
+from ..modelo.api_firmas import mandar_correo
 
 dao_usuario: UsuarioDao = UsuarioDao()
 fabrica: FabricaObjetos = FabricaObjetos()
@@ -48,4 +49,25 @@ def perfil():
 @app.route('/chat/<int:id>')
 def chat(id: int):
     chat = fabrica.chats[id - 1]
-    return render_template('chat.html', chat=chat)
+    if g.id_cuenta == chat.artista.id:
+        titulo = 'Chat de ' + chat.cliente.nombre
+    else:
+        titulo = 'Chat de ' + chat.artista.nombre
+    return render_template('chat.html', chat=chat, titulo=titulo)
+
+@app.route('/comisionar/<int:id>')
+def comisionar(id: int):
+    servicio: Servicio = fabrica.get_servicio(id)
+    titulo = servicio.titulo
+    return render_template('comisionar.html', titulo=titulo, servicio=servicio)
+
+@app.route('/firmar/<int:id>')
+def firmar(id: int):
+    comision = fabrica.get_comision(id)
+    return render_template('firmar.html', titulo='Paga tu servicio', comision=comision)
+
+@app.route('/postfirmar/<int:id>')
+def postfirmar(id: int):
+    comision = fabrica.get_comision(id)
+    mandar_correo(comision.contrato.id, comision.chat.cliente)
+    return render_template('postfirmar.html')

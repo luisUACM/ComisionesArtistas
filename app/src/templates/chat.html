@@ -9,11 +9,7 @@
     <div class="text-center mb-3 continer-fluid ms-4 me-4">
         <div class="row ms-0 me-0">
             <div class="col-6 offset-md-3">
-                {% if g.id_cuenta == chat.artista.id %}
-                    <h2>Chat de {{ chat.cliente.nombre }}</h2>
-                {% elif g.id_cuenta == chat.cliente.id %}
-                    <h2>Chat de {{ chat.artista.nombre }}</h2>
-                {% endif %}
+                
             </div>
             {% include 'cabecera_chat.html'%}
         </div>

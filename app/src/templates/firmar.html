@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <form action="{{'/postfirmar/' ~  comision.id }}">
+        <button type="submit" class="btn btn-primary">Firmar contrato</button>
+    </form>
+{% endblock %}

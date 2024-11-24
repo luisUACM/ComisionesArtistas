@@ -3,7 +3,7 @@
     {% if chat.cliente.id == g.id_cuenta %} 
         <!-- EstadosComision.POR_PAGAR -->
         {% if chat.comision.estado.value == 2 and chat.esta_deacuerdo.0 and chat.esta_deacuerdo.1 %}
-            <button class="btn btn-success">Pagar</button>
+            <a class="btn btn-success" href="{{ '/firmar/' ~ chat.comision.id}}">Pagar</a>
         <!-- EstadosComision.EN_PROCESO -->
         {% elif chat.comision.estado.value == 3 and chat.solicitud_cambios == False %}
             <button class="btn btn-secondary">Solicitar cambio</button>
