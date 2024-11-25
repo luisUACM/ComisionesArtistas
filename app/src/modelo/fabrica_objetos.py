@@ -33,7 +33,7 @@ El Artista acuerda prestar sus servicios de creación de arte digital al Cliente
             contactos=[(Contacto.TipoContacto.INSTAGRAM, 'https://www.instagram.com/WICHIGOD/'), 
                     (Contacto.TipoContacto.KOFI, 'https://ko-fi.com/WICHIGOD')],
             foto_perfil='fotos_perfil/3.jpg')
-    edwar = Usuario('edwar.garcia@estudiante.uacm.edu.mx', '123', 'Edwar', [Usuario.Rol.CLIENTE], 4)
+    edwar = Usuario('luis.beto642@gmail.com', '123', 'Edwar', [Usuario.Rol.CLIENTE], 4)
     luis = Usuario('luis@gmail', '123', 'Luis', [Usuario.Rol.CLIENTE], 5)
     pepe = Usuario('pepe@gmail', '123', 'Pepe', [Usuario.Rol.CLIENTE], 6)
 
@@ -99,10 +99,10 @@ El Artista acuerda prestar sus servicios de creación de arte digital al Cliente
     akali.portafolio = juegos + overlays + pixels
     wichigod.portafolio = fotos
 
-    contrato_personal = Contrato('', '', 'valkalyh', id=1)
-    contrato_comercial = Contrato('', '', 'valkalyh', id=2)
-    contrato_personal_firmado = Contrato('', '', 'valkalyh', id=3, nombre_cliente='pepe')
-    contrato_comercial_firmado = Contrato('', '', 'valkalyh', id=4, nombre_cliente='pepe')
+    contrato_personal = Contrato('Servicio de dibujo de retrato', '', 'valkalyh', id=1)
+    contrato_comercial = Contrato('Servicio de dibujo de retrato', '', 'valkalyh', id=2)
+    contrato_personal_firmado = Contrato('Servicio de dibujo de retrato', '', 'valkalyh', id=3, nombre_cliente='pepe')
+    contrato_comercial_firmado = Contrato('Servicio de dibujo de retrato', '', 'valkalyh', id=4, nombre_cliente='pepe')
     contratos = [contrato_personal, contrato_comercial]
 
     s_retrato = Servicio('Retrato de personaje',conceptos_retrato, retratos, contratos, 1, valkalyh)
@@ -128,13 +128,13 @@ El Artista acuerda prestar sus servicios de creación de arte digital al Cliente
     chat_completo = Chat(valkalyh, edwar, 6, esta_deacuerdo=(True, True))
     chat_archivado = Chat(valkalyh, edwar, 7, esta_deacuerdo=(True, True))
 
-    com_inicial = Comision(chat_inicial, sol_retrato, 1,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.SOLICITADA, id=1)
-    com_aprobado = Comision(chat_aprobado, sol_retrato, 2,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.POR_PAGAR, id=2)
-    com_pagado = Comision(chat_pagado, sol_retrato, 3,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.EN_PROCESO, id=3)
-    com_extra = Comision(chat_extra, sol_retrato, 4,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.EN_PROCESO, id=4)
-    com_pagado2 = Comision(chat_pagado2, sol_retrato, 3,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.EN_PROCESO, id=5)
-    com_completo = Comision(chat_completo, sol_retrato, 5,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.TERMINADA, id=6)
-    com_archivado = Comision(chat_archivado, sol_retrato, 6,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.ARCHIVADA, id=7)
+    com_inicial = Comision(chat_inicial, sol_retrato, 1,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.SOLICITADA, id=1, contrato=contrato_personal)
+    com_aprobado = Comision(chat_aprobado, sol_retrato, 2,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.POR_PAGAR, id=2, contrato=contrato_personal)
+    com_pagado = Comision(chat_pagado, sol_retrato, 3,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.EN_PROCESO, id=3, contrato=contrato_personal)
+    com_extra = Comision(chat_extra, sol_retrato, 4,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.EN_PROCESO, id=4, contrato=contrato_personal)
+    com_pagado2 = Comision(chat_pagado2, sol_retrato, 3,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.EN_PROCESO, id=5, contrato=contrato_personal)
+    com_completo = Comision(chat_completo, sol_retrato, 5,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.TERMINADA, id=6, contrato=contrato_personal)
+    com_archivado = Comision(chat_archivado, sol_retrato, 6,[c_retrato1, c_retrato3], date.today, estado=Comision.EstadosComision.ARCHIVADA, id=7, contrato=contrato_personal)
 
     m1 = Mensaje(edwar, 'Hola buenas tardes, me gustaria que me dibujaran un retrato de mi prometida')
     m2 = Mensaje(valkalyh, 'Hola!, si claro, requeriré una imagen de ella como referencia. El costo sería de $450 y la imagen se la entregaría en 1 semana a partir del pago')

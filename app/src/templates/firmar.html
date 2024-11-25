@@ -1,7 +1,37 @@
 {% extends "base.html" %}
 
+{% block css %}
+    <link rel="stylesheet" href="../static/css/firmar.css">
+{% endblock %}
+
 {% block content %}
-    <form action="{{'/postfirmar/' ~  comision.id }}">
-        <button type="submit" class="btn btn-primary">Firmar contrato</button>
-    </form>
+    <div class="text-center alto-pantalla">
+        <div class="offset-md-3 col-6 h3 mb-4">Para continuar con el pago de tu comisión "{{ comision.solicitud_comision.servicio.titulo }}". Primero debes firmar el contrato acordado con {{ comision.servicio.artista.nombre }}.</div>
+        <div class="row mb-4">
+            <div class="offset-md-3 col-6">
+                <h4 class="text-center">Servicios</h4>
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th scope="col" colspan="3" class="text-start">Descripción</th>
+                            <th scope="col">Costo</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-group-divider">
+                        {% for c in comision.conceptos %}
+                            <tr>
+                                <td colspan="3" class="text-start">{{ c.descripcion }}</td>
+                                <td class="align-middle text-center">
+                                    <div class="text-success">$ {{ c.precio.cantidad }}</div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <form action="{{'/postfirmar/' ~  comision.id }}">
+            <button type="submit" class="btn btn-primary">Firmar contrato</button>
+        </form>
+    </div>
 {% endblock %}

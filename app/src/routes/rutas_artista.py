@@ -69,5 +69,7 @@ def firmar(id: int):
 @app.route('/postfirmar/<int:id>')
 def postfirmar(id: int):
     comision = fabrica.get_comision(id)
+    print('Id contrato:',comision.contrato.id)
+    print('Correo:',comision.chat.cliente.correo)
     mandar_correo(comision.contrato.id, comision.chat.cliente)
     return render_template('postfirmar.html')
