@@ -33,7 +33,7 @@ El Artista acuerda prestar sus servicios de creación de arte digital al Cliente
             contactos=[(Contacto.TipoContacto.INSTAGRAM, 'https://www.instagram.com/WICHIGOD/'), 
                     (Contacto.TipoContacto.KOFI, 'https://ko-fi.com/WICHIGOD')],
             foto_perfil='fotos_perfil/3.jpg')
-    edwar = Usuario('luis.beto642@gmail.com', '123', 'Edwar', [Usuario.Rol.CLIENTE], 4)
+    edwar = Usuario('edwar.garcia@estudiante.uacm.edu.mx', '123', 'Edwar', [Usuario.Rol.CLIENTE], 4)
     luis = Usuario('luis@gmail', '123', 'Luis', [Usuario.Rol.CLIENTE], 5)
     pepe = Usuario('pepe@gmail', '123', 'Pepe', [Usuario.Rol.CLIENTE], 6)
 
@@ -99,8 +99,8 @@ El Artista acuerda prestar sus servicios de creación de arte digital al Cliente
     akali.portafolio = juegos + overlays + pixels
     wichigod.portafolio = fotos
 
-    contrato_personal = Contrato('Servicio de dibujo de retrato', '', 'valkalyh', id=1)
-    contrato_comercial = Contrato('Servicio de dibujo de retrato', '', 'valkalyh', id=2)
+    contrato_personal = Contrato('Servicio de dibujo de retrato (uso personal)', '', 'valkalyh', id=1)
+    contrato_comercial = Contrato('Servicio de dibujo de retrato (uso comercial)', '', 'valkalyh', id=2)
     contrato_personal_firmado = Contrato('Servicio de dibujo de retrato', '', 'valkalyh', id=3, nombre_cliente='pepe')
     contrato_comercial_firmado = Contrato('Servicio de dibujo de retrato', '', 'valkalyh', id=4, nombre_cliente='pepe')
     contratos = [contrato_personal, contrato_comercial]

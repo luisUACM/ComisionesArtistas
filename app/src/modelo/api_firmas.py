@@ -41,7 +41,7 @@ def get_token():
         "password": ""
     }
     headers = {
-        "Authorization": "Basic "#token
+        "Authorization": "Basic"#token
     }
     response = requests.post(url, data=payload, headers=headers)
     diccionario = response.json()
